@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@layer base {
+  * {
+    font-family: 'Montserrat', sans-serif;
+  }
+}
+
+@layer utilities {
+  .subgrid {
+    display: grid;
+    grid-template-columns: subgrid;
+  }
+
+  .subgrid-col-full {
+    @apply subgrid;
+    grid-column: 1 / -1;
+  }
+}
