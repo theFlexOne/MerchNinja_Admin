@@ -27,7 +27,7 @@ const Textarea = forwardRef(
     return (
       <div className='flex flex-col gap-1 grow'>
         {label && (
-          <label className={cn(['text-gray-400 text-sm'])} htmlFor={id}>
+          <label className={cn(['text-neutral-400 text-sm'])} htmlFor={id}>
             {label}
           </label>
         )}

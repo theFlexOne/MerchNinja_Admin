@@ -62,7 +62,7 @@ const NumberInput = forwardRef(
     return (
       <div {...containerProps}>
         {label && (
-          <label className={cn(['text-gray-400 text-sm'])} htmlFor={id}>
+          <label className={cn(['text-neutral-400 text-sm'])} htmlFor={id}>
             {label}
           </label>
         )}

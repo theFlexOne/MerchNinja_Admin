@@ -8,14 +8,14 @@ import CategoryPanel from '@products/components/panels/CategoryPanel';
 import TagsPanel from '@products/components/panels/TagsPanel';
 import BrandPanel from '@products/components/panels/BrandPanel';
 import AddProductHeader from './components/AddProductHeader';
-import ProductAttributesPanel from './components/panels/ProductAttributesPanel';
+import AttributesPanel from './components/panels/attributesPanel/AttributesPanel';
 
 export default function AddProduct() {
   function handleSubmit(formObject: Record<string, unknown>) {
     console.log('formObject', formObject);
   }
 
-  const handleSaveDraft = () => {};
+  // const handleSaveDraft = () => {};
 
   return (
     <div className='grow flex flex-col gap-6'>
@@ -29,12 +29,12 @@ export default function AddProduct() {
       >
         <div className='flex flex-col gap-6'>
           <BasicInfoPanel />
+          <AttributesPanel />
           <ImagesPanel />
           <MoreInfoPanel />
         </div>
         <div className='flex flex-col gap-6'>
           <StatusPanel />
-          <ProductAttributesPanel />
           <CategoryPanel />
           <TagsPanel />
           <BrandPanel />

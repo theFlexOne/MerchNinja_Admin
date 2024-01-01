@@ -2,9 +2,10 @@ import React, { ChangeEvent, forwardRef, useRef, useState } from 'react';
 import cn from '@/utils/cn';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import useId from '@/hooks/useId';
-import { SelectOption } from '@/types/types';
 import useForwardRef from '@/hooks/useForwardRef';
 import InputFieldWrapper from './InputFieldWrapper';
+import { SelectOption } from '@/types/app.types';
+import { IoChevronDownSharp as ChevronDownIcon } from 'react-icons/io5';
 
 const Select = forwardRef(
   (
@@ -48,7 +49,7 @@ const Select = forwardRef(
         <div ref={containerRef} {...containerProps}>
           {label && (
             <span
-              className='text-gray-400 text-sm'
+              className='text-neutral-400 text-sm'
               onClick={() => customSelectRef.current?.focus()}
             >
               {label}
@@ -63,7 +64,16 @@ const Select = forwardRef(
               className={getInputClasses(className)}
               tabIndex={0}
             >
-              {selectedOption?.label}
+              <div className='w-full flex items-center'>
+                <span>{selectedOption?.label}</span>
+                <ChevronDownIcon
+                  className={cn([
+                    'ml-auto inline',
+                    'transition-transform duration-200 ease-in-out',
+                    { 'transform rotate-180': isDropdownOpen },
+                  ])}
+                />
+              </div>
             </button>
           </InputFieldWrapper>
           <DropdownMenu
@@ -158,7 +168,6 @@ function updateHiddenSelectValue(
 function getInputClasses(className: string) {
   return cn([
     'bg-transparent border-none outline-none',
-    'text-start',
     'w-full px-2 py-1',
     className,
   ]);

@@ -124,7 +124,7 @@ function AppSidebarSubmenu({
 
   const caretClasses = cn([
     'ml-auto',
-    open ? 'text-amber-400' : 'text-gray-400',
+    open ? 'text-amber-400' : 'text-neutral-400',
     'transition-transform duration-200',
     'transform',
     open ? 'rotate-180' : '',

@@ -10,11 +10,17 @@ export default function Form({
   className,
   onClose,
   devtools = false,
+  onSubmit,
   ...props
 }: FormProps) {
   const formId = useId(id);
 
   const methods = useForm<Record<string, unknown>>();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit && methods.handleSubmit(onSubmit)();
+  };
 
   useEffect(() => {
     if (!onClose) return;
@@ -29,7 +35,12 @@ export default function Form({
   return (
     <>
       <FormProvider {...methods}>
-        <form id={formId} className={cn([className])} {...props}>
+        <form
+          id={formId}
+          className={cn([className])}
+          onSubmit={handleSubmit}
+          {...props}
+        >
           {children}
         </form>
       </FormProvider>

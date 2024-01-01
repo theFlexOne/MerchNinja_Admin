@@ -3,13 +3,11 @@ import Panel from '@/components/layout/panel/Panel';
 import PanelBody from '@/components/layout/panel/PanelBody';
 import PanelHeader from '@/components/layout/panel/PanelHeader';
 import useSupaBaseData from '@/hooks/useSupaBaseData';
-import { Category, SelectOption } from '@/types/app.types';
-import { useEffect, useState } from 'react';
+import { SelectOption } from '@/types/app.types';
+import { Category } from '@/types/models.types';
 
 const CategoryPanel = () => {
-  const { data: categories, error, isLoading } = useSupaBaseData('categories');
-
-  console.log(categories);
+  const { data: categories } = useSupaBaseData('categories');
 
   const options: SelectOption[] = [
     { value: '', label: 'None' },
@@ -19,24 +17,24 @@ const CategoryPanel = () => {
     })),
   ];
 
-  if (error) {
-    console.error(error);
-    return <div>Error</div>;
-  }
-
   return (
     <Panel>
       <PanelHeader className='flex'>Category</PanelHeader>
       <PanelBody>
-        <div className='flex items-center'>
-          <span className='mr-auto'>Select category</span>
-          <span className='text-xs text-amber-500/40'>Add New</span>
+        <div className='flex gap-8'>
+          <Select
+            options={options}
+            name='category'
+            id='category'
+            className='grow'
+          />
+          <button
+            type='button'
+            className='text-primary-500/80 text-xs min-w-fit'
+          >
+            New Category
+          </button>
         </div>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <Select options={options} name='category' id='category' />
-        )}
       </PanelBody>
     </Panel>
   );

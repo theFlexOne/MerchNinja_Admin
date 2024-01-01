@@ -1,4 +1,4 @@
-import { Tab } from '@/pages/admin/products/pages/components/panels/GeneralInfoPanel';
+import { Tab } from '@/types/app.types';
 import cn from '@/utils/cn';
 import { HTMLProps, useState } from 'react';
 

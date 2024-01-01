@@ -6,7 +6,7 @@ import useSupaBaseData from '@/hooks/useSupaBaseData';
 import { Brand } from '@/types/models.types';
 
 const BrandPanel = () => {
-  const { data: brands, isLoading } = useSupaBaseData('brands');
+  const { data: brands } = useSupaBaseData('brands');
 
   const options = [
     { value: '', label: 'None' },
@@ -20,15 +20,15 @@ const BrandPanel = () => {
     <Panel>
       <PanelHeader className='flex'>Brand</PanelHeader>
       <PanelBody>
-        <div className='flex items-center'>
-          <span className='mr-auto'>Select brand</span>
-          <span className='text-xs text-amber-500/40'>Add New</span>
+        <div className='flex gap-8'>
+          <Select options={options} name='brand' id='brand' className='grow' />
+          <button
+            type='button'
+            className='text-primary-500/80 text-xs min-w-fit'
+          >
+            New Brand
+          </button>
         </div>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <Select options={options} name='brand' id='brand' />
-        )}
       </PanelBody>
     </Panel>
   );

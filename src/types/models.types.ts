@@ -16,6 +16,6 @@ export type ProductGroup = {
 
 export type ProductAttribute = {
   name: string;
-  type: 'text' | 'number' | 'boolean';
-  id: number;
+  value: string;
+  id?: number;
 };

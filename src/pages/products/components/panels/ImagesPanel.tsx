@@ -1,14 +1,13 @@
 import Panel from '@/components/layout/panel/Panel';
 import PanelBody from '@/components/layout/panel/PanelBody';
 import { useState } from 'react';
-import { useFormContext, useController } from 'react-hook-form';
-import { NewProduct } from '@/types/types';
+import { useFormContext, useController, FieldValues } from 'react-hook-form';
 import PanelHeader from '@/components/layout/panel/PanelHeader';
 import ImageUploadInput from '@/components/form/ImageUploadInput';
 import ImageGallery from '@products/components/ImageGallery';
 
 const ImagesPanel = () => {
-  const { control, setFocus } = useFormContext<NewProduct>();
+  const { control, setFocus } = useFormContext<FieldValues>();
   const { field } = useController({
     name: 'thumbnail',
     control,
@@ -35,7 +34,7 @@ const ImagesPanel = () => {
           className='relative flex flex-col gap-2'
           style={{ aspectRatio: '16/9' }}
         >
-          <span className='text-gray-400 text-sm'>Thumbnail</span>
+          <span className='text-neutral-400 text-sm'>Thumbnail</span>
           {thumbnailUrl ? (
             <div className='relative group hover:opacity-80 opacity-100 transition-opacity duration-200 ease-in-out'>
               <img

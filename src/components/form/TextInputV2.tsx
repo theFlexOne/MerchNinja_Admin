@@ -1,7 +1,7 @@
 import { HTMLProps, forwardRef } from 'react';
 import BaseTextInput from './base/BaseTextInput';
 
-const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
+const TextInputV2 = forwardRef<HTMLInputElement, TextInputProps>(
   ({ label, containerProps, ...inputProps }, ref) => {
     return (
       <div {...containerProps}>
@@ -25,4 +25,4 @@ type TextInputProps = HTMLProps<HTMLInputElement> & {
 
 type TextInputType = 'text' | 'password' | 'email';
 
-export default TextInput;
+export default TextInputV2;
