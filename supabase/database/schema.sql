@@ -1,0 +1,2 @@
+DROP SCHEMA IF EXISTS public;
+CREATE SCHEMA public AUTHORIZATION pg_database_owner;
