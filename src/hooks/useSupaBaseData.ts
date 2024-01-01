@@ -5,10 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const supabaseDataFunctions = {
   categories: () => supabase.from('categories').select('id, name'),
   brands: () => supabase.from('product_brands').select('id, name'),
-  productGroups: () =>
-    supabase
-      .from('product_groups')
-      .select('id, name, product_attributes (id, name, type)'),
+  productGroups: () => supabase.from('product_groups').select('id, name'),
 };
 
 export default function useSupaBaseData(
