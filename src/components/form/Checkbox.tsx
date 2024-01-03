@@ -3,7 +3,7 @@ import useForwardRef from '@/hooks/useForwardRef';
 import cn from '@/utils/cn';
 
 type CheckboxProps = React.HTMLProps<HTMLInputElement> & {
-  name: string;
+  name?: string;
   defaultChecked?: boolean;
   label?: string;
   className?: string;

@@ -3,15 +3,19 @@ import Panel from '@/components/layout/panel/Panel';
 import PanelBody from '@/components/layout/panel/PanelBody';
 import PanelHeader from '@/components/layout/panel/PanelHeader';
 import useSupaBaseData from '@/hooks/useSupaBaseData';
+import { SelectOption } from '@/types/app.types';
 import { Brand } from '@/types/models.types';
+import { useFormContext } from 'react-hook-form';
 
 const BrandPanel = () => {
   const { data: brands } = useSupaBaseData('brands');
+  const { register } = useFormContext();
 
-  const options = [
-    { value: '', label: 'None' },
+  const options: SelectOption[] = [
+    { id: 'none', value: '', label: 'None' },
     ...(brands as Brand[]).map((brand) => ({
-      value: brand.id,
+      id: brand.id.toString(),
+      value: brand.id.toString(),
       label: brand.name,
     })),
   ];
@@ -21,7 +25,12 @@ const BrandPanel = () => {
       <PanelHeader className='flex'>Brand</PanelHeader>
       <PanelBody>
         <div className='flex gap-8'>
-          <Select options={options} name='brand' id='brand' className='grow' />
+          <Select
+            options={options}
+            id='brand'
+            className='grow'
+            {...register('brand')}
+          />
           <button
             type='button'
             className='text-primary-500/80 text-xs min-w-fit'

@@ -132,7 +132,7 @@ function DropdownMenu({
       <div className='w-[min(auto,_100%)]'>
         <ul className='bg-f1-dark-alt rounded shadow-lg z-20 text-neutral-200 transition-all duration-200 ease-in-out overflow-hidden'>
           {options.map((option) => (
-            <li key={option.value as React.Key}>
+            <li key={option.value}>
               <button
                 type='button'
                 className={cn([

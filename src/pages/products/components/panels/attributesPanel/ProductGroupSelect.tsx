@@ -1,49 +1,38 @@
 import Select from '@/components/form/Select';
+import useSupaBaseData from '@/hooks/useSupaBaseData';
 import { SelectOption } from '@/types/app.types';
-import { useFormContext } from 'react-hook-form';
+import { ProductGroup } from '@/types/models.types';
 
 export default function ProductGroupSelect({
-  options,
   onChange,
 }: {
-  options: SelectOption[];
-  onChange?: (productGroupName: string) => void;
+  onChange: (productGroup: ProductGroup | null) => void;
 }) {
-  const { register, getValues } = useFormContext();
+  const { data } = useSupaBaseData('productGroups');
 
-  options = [
-    {
-      label: 'None',
-      value: '',
-    },
-    ...options,
+  const options: SelectOption[] = [
+    { id: 'none', value: '', label: 'None' },
+    ...(data as ProductGroup[]).map((productGroup) => ({
+      id: productGroup.id.toString(),
+      value: productGroup.id.toString(),
+      label: productGroup.name,
+    })),
   ];
 
-  const { onChange: onChangeForm, ...rest } = register('productGroup');
-
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onChange?.(e.target.value);
-    onChangeForm(e);
+    const productGroupId = e.target.value;
+    const productGroup = (data as ProductGroup[]).find(
+      (productGroup) => productGroup.id.toString() === productGroupId
+    );
+    console.log('productGroup', productGroup);
+
+    onChange(productGroup ?? null);
   };
 
   return (
     <div className='flex flex-col gap-2'>
       <label className='text-sm text-neutral-400'>Product Group</label>
-      <div className='flex gap-2'>
-        <Select
-          className='grow'
-          value={getValues('productGroup')}
-          options={options}
-          onChange={handleChange}
-          {...rest}
-        />
-        <button
-          type='button'
-          className='text-primary-500/80 text-xs min-w-fit px-2 py-1 hover:bg-neutral-100/20 rounded-md'
-        >
-          New Group
-        </button>
-      </div>
+      <Select className='grow' options={options} onChange={handleChange} />
     </div>
   );
 }

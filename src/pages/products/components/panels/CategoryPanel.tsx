@@ -10,9 +10,10 @@ const CategoryPanel = () => {
   const { data: categories } = useSupaBaseData('categories');
 
   const options: SelectOption[] = [
-    { value: '', label: 'None' },
+    { id: 'none', value: '', label: 'None' },
     ...(categories as Category[]).map((category) => ({
-      value: category.id,
+      id: category.id.toString(),
+      value: category.id.toString(),
       label: category.name,
     })),
   ];

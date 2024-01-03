@@ -6,8 +6,16 @@ import { useFormContext } from 'react-hook-form';
 import { useEffect } from 'react';
 
 const OPTIONS = [
-  { label: 'Draft', value: 'draft' },
-  { label: 'Published', value: 'published' },
+  {
+    id: 'draft',
+    label: 'Draft',
+    value: 'draft',
+  },
+  {
+    id: 'published',
+    label: 'Published',
+    value: 'published',
+  },
 ];
 
 const StatusPanel = () => {

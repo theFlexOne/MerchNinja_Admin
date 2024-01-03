@@ -1,53 +1,99 @@
 import Panel from '@/components/layout/panel/Panel';
 import PanelBody from '@/components/layout/panel/PanelBody';
 import PanelHeader from '@/components/layout/panel/PanelHeader';
-import useSupaBaseData from '@/hooks/useSupaBaseData';
-import { SelectOption } from '@/types/app.types';
-import { ProductAttribute } from '@/types/models.types';
+import { ProductAttribute, ProductGroup } from '@/types/models.types';
 import { useState } from 'react';
 import ProductGroupSelect from './ProductGroupSelect';
 import AttributesList from './AttributesList';
-import AttributeInputs from './AttributeInputs';
+import TextInput from '@/components/form/TextInput';
+import InputFieldWrapper from '@/components/form/InputFieldWrapper';
 
 const AttributesPanel = () => {
-  const [attributesList, setAttributesList] = useState<ProductAttribute[]>([]);
-  const { data: productGroups } = useSupaBaseData('productGroups');
-
-  const options: SelectOption[] = productGroups?.map((productGroup) => ({
-    label: productGroup.name as string,
-    value: productGroup.id as string,
-  }));
+  const [attributeList, setAttributeList] = useState<ProductAttribute[]>([]);
+  const [selectedProductGroup, setSelectedProductGroup] =
+    useState<ProductGroup | null>(null);
 
   const handleAddAttribute = (name: string, value: string) => {
-    if (attributesList.some((attribute) => attribute.name === name))
+    if (attributeList.some((attribute) => attribute.name === name))
       return false;
-    setAttributesList((prev) => [...prev, { name, value }]);
+    setAttributeList((prev) => [...prev, { name, value }]);
     return true;
   };
 
   const handleDeleteAttribute = (name: string) => {
-    setAttributesList((prev) =>
+    setAttributeList((prev) =>
       prev.filter((attribute) => attribute.name !== name)
     );
   };
+
+  const handleProductGroupChange = (productGroup: ProductGroup | null) => {
+    setSelectedProductGroup(productGroup);
+  };
+
+  console.log('selectedProductGroup', selectedProductGroup);
 
   return (
     <Panel>
       <PanelHeader>Product Attributes</PanelHeader>
       <PanelBody>
-        <ProductGroupSelect options={options} />
+        <ProductGroupSelect onChange={handleProductGroupChange} />
         <div className='grid grid-cols-[1fr,1fr,auto] gap-y-4'>
-          {!!attributesList.length && (
+          {!!attributeList.length && (
             <AttributesList
-              attributes={attributesList}
+              attributes={attributeList}
               onDeleteAttribute={handleDeleteAttribute}
             />
           )}
-          <AttributeInputs onAddAttribute={handleAddAttribute} />
+          {selectedProductGroup ? (
+            <ProductGroupAttributeList
+              selectedProductGroup={selectedProductGroup}
+            />
+          ) : (
+            <AttributeList
+              handleAttributeChange={() => {}}
+              attributes={attributeList}
+            />
+          )}
         </div>
       </PanelBody>
     </Panel>
   );
 };
+
+function ProductGroupAttributeList({
+  selectedProductGroup,
+}: {
+  selectedProductGroup: ProductGroup;
+}) {
+  return selectedProductGroup.attributes.map((attribute) => (
+    <div className='flex gap-4' key={attribute.id ?? attribute.name}>
+      <InputFieldWrapper label='Name' className='text-sm text-center'>
+        <p>{attribute.name}</p>
+      </InputFieldWrapper>
+      <InputFieldWrapper label='Value'>
+        <TextInput
+          type='text'
+          placeholder='Value'
+          className='text-sm'
+          containerProps={{ className: 'w-auto' }}
+        />
+      </InputFieldWrapper>
+    </div>
+  ));
+}
+
+function AttributeList({
+  attributes,
+  handleAttributeChange,
+}: {
+  attributes: ProductAttribute[];
+  handleAttributeChange: (
+    attributeId: string,
+    key: string,
+    value: string
+  ) => void;
+}) {
+  return <p>Attributes List</p>;
+}
 
 export default AttributesPanel;

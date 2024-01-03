@@ -10,6 +10,7 @@ import ProductsList from './pages/products/ProductsList';
 import Product from './pages/products/Product';
 import AddProduct from './pages/products/AddProduct';
 import EditProduct from './pages/products/EditProduct';
+import TestPage from './pages/test/TestPage';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
             element: <EditProduct />,
           },
         ],
+      },
+      {
+        path: 'test',
+        element: <TestPage />,
       },
     ],
   },
