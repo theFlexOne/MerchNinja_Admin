@@ -35,16 +35,6 @@ export default function useSupabaseData(
   return { data, isLoading };
 }
 
-async function fetchSupabaseData(
-  table: AllTableNames,
-  fieldList?: string[]
-): Promise<unknown[]> {
-  const fields = fieldList ? fieldList.join(',') : '*';
-  const { data } = await supabase.from(table).select(fields).throwOnError();
-  console.log('data', data);
-  return data ?? [];
-}
-
 // async function getProductGroups(): Promise<{
 //   data: ProductGroup[] | null;
 //   error: Error | null;

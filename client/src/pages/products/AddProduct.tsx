@@ -27,7 +27,7 @@ export default function AddProduct() {
   return (
     <div className='grow flex flex-col gap-6'>
       <AddProductHeader saved={true}>
-        <span className=''>Create Product</span>
+        <span className=''>CREATE Product</span>
       </AddProductHeader>
       <Form
         className='grid grid-cols-[3fr,1fr] gap-6 max-w-screen-2xl mx-auto px-6'

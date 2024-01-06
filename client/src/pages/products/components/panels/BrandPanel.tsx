@@ -2,13 +2,13 @@ import Select from '@/components/form/Select';
 import Panel from '@/components/layout/panel/Panel';
 import PanelBody from '@/components/layout/panel/PanelBody';
 import PanelHeader from '@/components/layout/panel/PanelHeader';
-import useSupabaseData from '@/hooks/useSupabaseData';
 import { SelectOption } from '@/types/app.types';
 import { Brand } from '@/types/models.types';
+import { fetchSupabaseData } from '@/utils';
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 const BrandPanel = () => {
-  const { data: brands } = useSupabaseData('brands', ['id', 'name']);
   const { register } = useFormContext();
 
   const options: SelectOption[] = [
@@ -43,20 +43,9 @@ const BrandPanel = () => {
   );
 };
 
-export default BrandPanel;
+async function useBrands() {
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const data = await fetchSupabaseData('product_brands', ['id', 'name']);
+}
 
-// const brands = [
-//   { value: '', label: 'None' },
-//   { value: 'apple', label: 'Apple' },
-//   { value: 'samsung', label: 'Samsung' },
-//   { value: 'huawei', label: 'Huawei' },
-//   { value: 'xiaomi', label: 'Xiaomi' },
-//   { value: 'oppo', label: 'Oppo' },
-//   { value: 'vivo', label: 'Vivo' },
-//   { value: 'realme', label: 'Realme' },
-//   { value: 'oneplus', label: 'OnePlus' },
-//   { value: 'sony', label: 'Sony' },
-//   { value: 'nokia', label: 'Nokia' },
-//   { value: 'lg', label: 'LG' },
-//   { value: 'other', label: 'Other' },
-// ];
+export default BrandPanel;

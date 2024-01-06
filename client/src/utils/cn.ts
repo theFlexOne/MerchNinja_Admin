@@ -7,6 +7,6 @@ import { ClassArray, clsx } from 'clsx';
  * @param args - An array of class names.
  * @returns A string of merged class names.
  */
-export default function cn(...args: ClassArray): string {
+export function cn(...args: ClassArray): string {
   return twMerge(clsx(...args.filter(Boolean)));
 }
