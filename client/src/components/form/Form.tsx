@@ -1,8 +1,8 @@
 import useId from '@/hooks/useId';
-import cn from '@/utils/cn';
+import { cn } from '@/utils/cn';
 import { FormProvider, useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 export default function Form({
   id,

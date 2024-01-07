@@ -1,4 +1,4 @@
-const EditProduct = () => {
+const EditProductPage = () => {
   return (
     <div>
       <h1>Edit Product</h1>
@@ -6,4 +6,4 @@ const EditProduct = () => {
   );
 };
 
-export default EditProduct;
+export default EditProductPage;

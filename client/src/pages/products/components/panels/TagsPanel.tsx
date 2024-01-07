@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Pill from '@/components/Pill';
 import InputFieldWrapper from '@/components/form/InputFieldWrapper';
 import { IoAddSharp as AddIcon } from 'react-icons/io5';
-import cn from '@/utils/cn';
+import { cn } from '@/utils/cn';
 import Tooltip from '@/components/overlay/ToolTip';
 
 const TagsPanel = () => {

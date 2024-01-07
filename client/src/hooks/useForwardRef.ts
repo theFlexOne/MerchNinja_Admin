@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const useForwardRef = <T>(ref: React.Ref<T>): React.RefObject<T> => {
   const backupRef = useRef<T>(null);

@@ -1,5 +1,5 @@
 import TextInput from '@/components/form/TextInput';
-import cn from '@/utils/cn';
+import { cn } from '@/utils/cn';
 import { useState } from 'react';
 
 export default function AttributeInputs({

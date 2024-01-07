@@ -5,11 +5,11 @@ import {
 } from 'react-router-dom';
 import AppLayout from './layouts/AppLayout';
 import Dashboard from './pages/dashboard/Dashboard';
-import ProductsProvider from './pages/products/ProductsProvider';
-import ProductsList from './pages/products/ProductsList';
-import Product from './pages/products/Product';
-import AddProduct from './pages/products/AddProduct';
-import EditProduct from './pages/products/EditProduct';
+import ProductsProvider from './pages/products/ProductsProviderPage';
+import ProductsListPage from './pages/products/ProductsListPage';
+import ProductPage from './pages/products/ProductPage';
+import AddProductPage from './pages/products/AddProductPage';
+import EditProductPage from './pages/products/EditProductPage';
 import TestPage from './pages/test/TestPage';
 
 const router = createBrowserRouter([
@@ -31,19 +31,19 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <ProductsList />,
+            element: <ProductsListPage />,
           },
           {
             path: ':id',
-            element: <Product />,
+            element: <ProductPage />,
           },
           {
             path: 'add',
-            element: <AddProduct />,
+            element: <AddProductPage />,
           },
           {
             path: 'edit/:id',
-            element: <EditProduct />,
+            element: <EditProductPage />,
           },
         ],
       },

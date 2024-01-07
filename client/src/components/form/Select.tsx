@@ -1,5 +1,5 @@
 import { HTMLProps, forwardRef, useRef, useState } from 'react';
-import cn from '@/utils/cn';
+import { cn } from '@/utils/cn';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import useId from '@/hooks/useId';
 import useForwardRef from '@/hooks/useForwardRef';

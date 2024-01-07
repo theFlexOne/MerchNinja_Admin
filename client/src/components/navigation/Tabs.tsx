@@ -1,5 +1,5 @@
 import { Tab } from '@/types/app.types';
-import cn from '@/utils/cn';
+import { cn } from '@/utils/cn';
 import { HTMLProps, useState } from 'react';
 
 const Tabs = ({

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import cn from '../utils/cn';
+import { cn } from '../utils/cn';
 import { FaCaretUp as CaretUpIcon } from 'react-icons/fa6';
 import { Link, LinkProps } from 'react-router-dom';
 

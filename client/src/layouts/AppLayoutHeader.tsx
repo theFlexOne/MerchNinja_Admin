@@ -3,7 +3,7 @@ import { LiaUserAstronautSolid as UserIcon } from 'react-icons/lia';
 import { FaMessage as MessageIcon } from 'react-icons/fa6';
 import { FaConciergeBell as NotificationIcon } from 'react-icons/fa';
 import { useEffect, useRef, useState } from 'react';
-import cn from '../utils/cn';
+import { cn } from '../utils/cn';
 import InputFieldWrapper from '../components/form/InputFieldWrapper';
 
 export default function AppHeader() {

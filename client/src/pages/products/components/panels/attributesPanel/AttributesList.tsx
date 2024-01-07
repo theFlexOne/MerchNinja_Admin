@@ -1,5 +1,5 @@
 import { ProductAttribute } from '@/types/models.types';
-import cn from '@/utils/cn';
+import { cn } from '@/utils/cn';
 import { IoClose as DeleteIcon } from 'react-icons/io5';
 
 export default function AttributesList({

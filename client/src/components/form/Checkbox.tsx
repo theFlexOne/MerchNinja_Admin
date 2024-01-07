@@ -1,6 +1,6 @@
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import useForwardRef from '@/hooks/useForwardRef';
-import cn from '@/utils/cn';
+import { cn } from '@/utils/cn';
 
 type CheckboxProps = React.HTMLProps<HTMLInputElement> & {
   name?: string;

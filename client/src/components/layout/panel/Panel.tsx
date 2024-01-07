@@ -1,4 +1,4 @@
-import cn from '@/utils/cn';
+import { cn } from '@/utils/cn';
 import { HTMLAttributes, createElement, forwardRef } from 'react';
 
 const Panel = forwardRef<HTMLElement, PanelProps>(

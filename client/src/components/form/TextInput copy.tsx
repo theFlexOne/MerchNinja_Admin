@@ -1,6 +1,6 @@
-import cn from '@/utils/cn';
+import { cn } from '@/utils/cn';
 import useId from '@/hooks/useId';
-import React, { HTMLProps, forwardRef } from 'react';
+import { HTMLProps, forwardRef } from 'react';
 import InputFieldWrapper from './InputFieldWrapper';
 
 const TextInput = forwardRef(

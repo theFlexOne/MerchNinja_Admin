@@ -1,5 +1,5 @@
 import useId from '@/hooks/useId';
-import cn from '@/utils/cn';
+import { cn } from '@/utils/cn';
 import { forwardRef } from 'react';
 import InputFieldWrapper from './InputFieldWrapper';
 

@@ -1,4 +1,4 @@
-import cn from '@/utils/cn';
+import { cn } from '@/utils/cn';
 import { IoCloseSharp as RemoveIcon } from 'react-icons/io5';
 
 interface PillProps extends React.HTMLAttributes<HTMLDivElement> {

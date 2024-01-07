@@ -1,6 +1,6 @@
-import cn from '@/utils/cn';
+import { cn } from '@/utils/cn';
 import useId from '@/hooks/useId';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const NumberInput = forwardRef(
   (
