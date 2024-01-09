@@ -61,7 +61,7 @@ LANGUAGE plpgsql AS
 	SELECT
 	    pg.attribute_ids INTO v_attribute_ids
 	FROM products p
-	    LEFT JOIN product_groups pg ON p.product_group_id = pg.id
+	    LEFT JOIN product_variants pg ON p.product_set_id = pg.id
 	WHERE p.id = p_product_id;
 	IF v_attribute_ids IS NULL
 	OR p_attribute_id = any (v_attribute_ids) THEN
@@ -122,7 +122,7 @@ LANGUAGE plpgsql AS
 $$; 
 
 CREATE OR REPLACE FUNCTION public.fn_create_product
-(p_name text, p_description text, p_price numeric, p_thumbnail 
+(p_name text, p_description text, p_base_price numeric, p_thumbnail 
 text, p_brand text, p_category text, p_parent_category 
 text, p_specs jsonb, p_tags text[]) RETURNS uuid 
 LANGUAGE plpgsql AS 
@@ -137,7 +137,7 @@ LANGUAGE plpgsql AS
 	INSERT INTO
 	    public.products (
 	        name,
-	        price,
+	        base_price,
 	        description,
 	        thumbnail,
 	        brand_id,
@@ -145,7 +145,7 @@ LANGUAGE plpgsql AS
 	    )
 	VALUES (
 	        p_name,
-	        p_price,
+	        p_base_price,
 	        p_description,
 	        p_thumbnail,
 	        v_brand_id,
@@ -165,13 +165,13 @@ LANGUAGE plpgsql AS
 	END;
 $$; 
 
-CREATE OR REPLACE FUNCTION public.fn_create_product_categories
+CREATE OR REPLACE FUNCTION public.fn_create_categories
 (p_product_id uuid, p_category_id bigint) RETURNS bigint 
 LANGUAGE plpgsql AS 
 	$$ DECLARE v_category_id bigint;
 	BEGIN
 	INSERT INTO
-	    product_categories (product_id, category_id)
+	    categories (product_id, category_id)
 	VALUES (p_product_id, p_category_id) RETURNING * INTO v_category_id;
 	RETURN v_category_id;
 	END;
@@ -266,12 +266,12 @@ LANGUAGE plpgsql AS
 	$$ DECLARE v_brand_id bigint;
 	BEGIN -- Check IF the brand already EXISTS
 	SELECT id INTO v_brand_id
-	FROM public.product_brands
+	FROM public.brands
 	WHERE name = p_name;
 	-- If it doesn't exist, CREATE a NEW one
 	IF v_brand_id IS NULL THEN
 	INSERT INTO
-	    public.product_brands (name)
+	    public.brands (name)
 	VALUES (p_name) RETURNING id INTO v_brand_id;
 	END IF;
 	-- Return the brand ID
@@ -364,7 +364,7 @@ LANGUAGE plpgsql AS
 	    name,
 	    parent_id INTO d_category_name,
 	    d_category_id
-	FROM product_categories
+	FROM categories
 	WHERE id = d_category_id;
 	-- Add the category name to the array
 	d_chain := array_prepend (d_category_name, d_chain);
@@ -423,7 +423,7 @@ LANGUAGE plpgsql AS
 	END;
 $$; 
 
-CREATE OR REPLACE FUNCTION public.fn_get_product_categories
+CREATE OR REPLACE FUNCTION public.fn_get_categories
 (p_product_id uuid) RETURNS text[] 
 LANGUAGE plpgsql AS 
 	$$ DECLARE v_category_hierarchy text [];

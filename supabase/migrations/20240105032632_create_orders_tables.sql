@@ -9,6 +9,7 @@ CREATE TABLE
         end_date timestamptz NULL,
         qualifiers _text NULL DEFAULT '{}':: text [],
         -------------------------------------
+        deleted boolean NOT NULL DEFAULT false,
         created_at timestamptz NOT NULL DEFAULT now(),
         updated_at timestamptz NOT NULL DEFAULT now(),
         deleted_at timestamptz NULL,
@@ -23,6 +24,7 @@ CREATE TABLE
         id bigserial,
         stock_quantity int4 NOT NULL,
         -------------------------------------
+        deleted boolean NOT NULL DEFAULT false,
         created_at timestamptz NOT NULL DEFAULT now(),
         updated_at timestamptz NOT NULL DEFAULT now(),
         deleted_at timestamptz NULL,
@@ -39,6 +41,7 @@ CREATE TABLE
         product_variant_id int8 NOT NULL,
         quantity int4 NOT NULL,
         -------------------------------------
+        deleted boolean NOT NULL DEFAULT false,
         created_at timestamptz NOT NULL DEFAULT now(),
         updated_at timestamptz NOT NULL DEFAULT now(),
         deleted_at timestamptz NULL,
@@ -53,6 +56,7 @@ CREATE TABLE
         id uuid NOT NULL DEFAULT gen_random_uuid(),
         customer_id uuid NOT NULL,
         -------------------------------------
+        deleted boolean NOT NULL DEFAULT false,
         created_at timestamptz NOT NULL DEFAULT now(),
         updated_at timestamptz NOT NULL DEFAULT now(),
         deleted_at timestamptz NULL,
@@ -68,6 +72,7 @@ CREATE TABLE
         order_id uuid NOT NULL,
         discount_id uuid NOT NULL,
         -------------------------------------
+        deleted boolean NOT NULL DEFAULT false,
         created_at timestamptz NOT NULL DEFAULT now(),
         updated_at timestamptz NOT NULL DEFAULT now(),
         deleted_at timestamptz NULL,

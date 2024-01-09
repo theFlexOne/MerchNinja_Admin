@@ -4,11 +4,7 @@ ALTER TABLE public.product_tags ADD CONSTRAINT product_tags_product_id_fkey FORE
 
 ALTER TABLE public.product_tags ADD CONSTRAINT product_tags_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES public.tags (id) ON DELETE CASCADE;
 
-ALTER TABLE public.products ADD CONSTRAINT products_brand_id_fkey FOREIGN KEY (brand_id) REFERENCES public.product_brands (id) ON DELETE CASCADE;
-
-ALTER TABLE public.products ADD CONSTRAINT products_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.product_categories (id);
-
-ALTER TABLE public.products ADD CONSTRAINT products_product_group_id_fkey FOREIGN KEY (product_group_id) REFERENCES public.product_groups (id) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE public.products ADD CONSTRAINT products_brand_id_fkey FOREIGN KEY (brand_id) REFERENCES public.brands (id) ON DELETE CASCADE;
 
 ALTER TABLE public.products_specs ADD CONSTRAINT product_specs_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -32,4 +28,14 @@ ALTER TABLE public.orders_discounts ADD CONSTRAINT orders_discounts_discount_id_
 
 ALTER TABLE public.orders_discounts ADD CONSTRAINT orders_discounts_order_id_fkey FOREIGN KEY (order_id) REFERENCES public.orders (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE product_subcategories ADD CONSTRAINT product_subcategories_product_categories_id_fk FOREIGN KEY (product_category_id) REFERENCES product_categories (id);
+ALTER TABLE public.subcategories ADD CONSTRAINT subcategories_categories_id_fk FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE public.products ADD CONSTRAINT products_subcategory_id_fkey FOREIGN KEY (subcategory_id) REFERENCES public.subcategories (id) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE public.products_attributes ADD CONSTRAINT products_attributes_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE public.products_attributes ADD CONSTRAINT products_attributes_attribute_field_id_fkey FOREIGN KEY (attribute_field_id) REFERENCES public.attribute_fields (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE public.product_variant_attributes ADD CONSTRAINT product_variant_attributes_product_variant_id_fkey FOREIGN KEY (product_variant_id) REFERENCES public.product_variants (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE public.product_variant_attributes ADD CONSTRAINT product_variant_attributes_product_attribute_id_fkey FOREIGN KEY (product_attribute_id) REFERENCES public.products_attributes (id) ON DELETE CASCADE ON UPDATE CASCADE;

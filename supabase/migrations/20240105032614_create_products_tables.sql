@@ -4,50 +4,72 @@ CREATE TABLE
     public.products (
         id uuid NOT NULL DEFAULT gen_random_uuid(),
         "name" text NOT NULL,
-        briefDescription text NULL DEFAULT '':: text,
         description text NULL DEFAULT '':: text,
         thumbnail text NULL,
-        price numeric NULL DEFAULT 0.00,
+        base_price numeric NULL DEFAULT 0.00,
         brand_id int8 NULL,
-        category_id int8 NULL,
-        product_group_id int8 NULL,
-        categories _text NULL,
+        subcategory_id int8 NULL,
+        status text NOT NULL DEFAULT 'DRAFT':: text,
+        specs jsonb NULL,
         -------------------------------------
-        created_at timestamptz NOT NULL DEFAULT now(),
-        updated_at timestamptz NOT NULL DEFAULT now(),
-        deleted_at timestamptz NULL,
-        -------------------------------------
-        CONSTRAINT products_name_key UNIQUE (name),
-        CONSTRAINT products_pkey PRIMARY KEY (id)
-    );
+        CONSTRAINT products_pkey PRIMARY KEY (id),
+        CONSTRAINT products_name_key UNIQUE (name)
+    ) INHERITS (TABLE_BASE);
 
-DROP TABLE IF EXISTS public.product_brands;
+DROP TABLE IF EXISTS public.product_variants;
 
 CREATE TABLE
-    public.product_brands (
+    public.product_variants (
+        id bigserial,
+        "name" text NOT NULL,
+        
+        -------------------------------------
+        CONSTRAINT product_variants_pkey PRIMARY KEY (id)
+    ) INHERITS (TABLE_BASE);
+
+DROP TABLE IF EXISTS public.attribute_fields;
+
+CREATE TABLE
+    public.attribute_fields (
+        id BIGSERIAL NOT NULL,
+        name text NOT NULL UNIQUE,
+        -------------------------------------
+        CONSTRAINT attribute_fields_pkey PRIMARY KEY (id)
+    ) INHERITS (TABLE_BASE);
+
+DROP TABLE IF EXISTS public.products_attributes;
+
+CREATE TABLE
+    public.products_attributes (
+        id BIGSERIAL NOT NULL,
+        product_id uuid NOT NULL,
+        attribute_field_id int8 NOT NULL,
+        value text NOT NULL,
+        -------------------------------------
+        CONSTRAINT products_attributes_pkey PRIMARY KEY (id)
+    ) INHERITS (TABLE_BASE);
+
+DROP TABLE IF EXISTS public.product_variant_attributes;
+
+CREATE TABLE
+    public.product_variant_attributes (
+        id BIGSERIAL NOT NULL,
+        product_variant_id int8 NOT NULL,
+        product_attribute_id int8 NOT NULL,
+        value text NOT NULL,
+        -------------------------------------
+        CONSTRAINT product_variant_attributes_pkey PRIMARY KEY (id)
+    ) INHERITS (TABLE_BASE);
+
+DROP TABLE IF EXISTS public.brands;
+
+CREATE TABLE
+    public.brands (
         id bigserial,
         "name" text NOT NULL,
         -------------------------------------
-        created_at timestamptz NOT NULL DEFAULT now(),
-        updated_at timestamptz NOT NULL DEFAULT now(),
-        deleted_at timestamptz NULL,
-        -------------------------------------
-        CONSTRAINT product_brands_pkey PRIMARY KEY (id)
-    );
-
-DROP TABLE IF EXISTS public.product_groups;
-
-CREATE TABLE
-    public.product_groups (
-        id bigserial,
-        "name" text NOT NULL,
-        -------------------------------------
-        created_at timestamptz NOT NULL DEFAULT now(),
-        updated_at timestamptz NOT NULL DEFAULT now(),
-        deleted_at timestamptz NULL,
-        -------------------------------------
-        CONSTRAINT product_groups_pkey PRIMARY KEY (id)
-    );
+        CONSTRAINT brands_pkey PRIMARY KEY (id)
+    ) INHERITS (TABLE_BASE);
 
 DROP TABLE IF EXISTS public.tags;
 
@@ -56,56 +78,30 @@ CREATE TABLE
         id bigserial,
         "name" varchar NOT NULL UNIQUE,
         -------------------------------------
-        created_at timestamptz NOT NULL DEFAULT now(),
-        updated_at timestamptz NOT NULL DEFAULT now(),
-        deleted_at timestamptz NULL,
-        -------------------------------------
         CONSTRAINT tags_pkey PRIMARY KEY (id)
-    );
+    ) INHERITS (TABLE_BASE);
 
-DROP TABLE IF EXISTS public.attributes;
-
-CREATE TABLE
-    public.attributes (
-        id BIGSERIAL NOT NULL,
-        name text NOT NULL UNIQUE,
-        -------------------------------------
-        created_at timestamptz NOT NULL DEFAULT now(),
-        updated_at timestamptz NOT NULL DEFAULT now(),
-        deleted_at timestamptz NULL,
-        -------------------------------------
-        CONSTRAINT attributes_pkey PRIMARY KEY (id)
-    );
-
-DROP TABLE IF EXISTS public.product_categories;
+DROP TABLE IF EXISTS public.categories;
 
 CREATE TABLE
-    public.product_categories (
+    public.categories (
         id bigserial,
         "name" text NOT NULL UNIQUE,
         -------------------------------------
-        created_at timestamptz NOT NULL DEFAULT now(),
-        updated_at timestamptz NOT NULL DEFAULT now(),
-        deleted_at timestamptz NULL,
-        -------------------------------------
-        CONSTRAINT product_categories_pkey PRIMARY KEY (id)
-    );
+        CONSTRAINT categories_pkey PRIMARY KEY (id)
+    ) INHERITS (TABLE_BASE);
 
-DROP TABLE IF EXISTS public.product_subcategories;
+DROP TABLE IF EXISTS public.subcategories;
 
 CREATE TABLE
-    product_subcategories (
+    subcategories (
         id bigserial,
         "name" text NOT NULL,
-        product_category_id int8 NOT NULL,
+        category_id int8 NOT NULL,
         -------------------------------------
-        created_at timestamptz NOT NULL DEFAULT now(),
-        updated_at timestamptz NOT NULL DEFAULT now(),
-        deleted_at timestamptz NULL,
-        -------------------------------------
-        CONSTRAINT product_subcategories_pkey PRIMARY KEY (id),
-        CONSTRAINT product_subcategories_unique UNIQUE (product_category_id, "name")
-    );
+        CONSTRAINT subcategories_pkey PRIMARY KEY (id),
+        CONSTRAINT subcategories_unique UNIQUE (category_id, "name")
+    ) INHERITS (TABLE_BASE);
 
 DROP TABLE IF EXISTS public.spec_fields;
 
@@ -114,12 +110,8 @@ CREATE TABLE
         id bigserial,
         "name" text NOT NULL UNIQUE,
         -------------------------------------
-        created_at timestamptz NOT NULL DEFAULT now(),
-        updated_at timestamptz NOT NULL DEFAULT now(),
-        deleted_at timestamptz NULL,
-        -------------------------------------
         CONSTRAINT spec_fields_pkey PRIMARY KEY (id)
-    );
+    ) INHERITS (TABLE_BASE);
 
 DROP TABLE IF EXISTS public.product_reviews;
 
@@ -131,16 +123,12 @@ CREATE TABLE
         customer_id uuid NOT NULL,
         product_id uuid NOT NULL,
         -------------------------------------
-        created_at timestamptz NOT NULL DEFAULT now(),
-        updated_at timestamptz NOT NULL DEFAULT now(),
-        deleted_at timestamptz NULL,
-        -------------------------------------
         CONSTRAINT product_reviews_pkey PRIMARY KEY (id),
         CONSTRAINT product_reviews_rating_range CHECK (
             rating >= 1
             AND rating <= 5
         )
-    );
+    ) INHERITS (TABLE_BASE);
 
 DROP TABLE IF EXISTS public.product_tags;
 
@@ -150,12 +138,8 @@ CREATE TABLE
         product_id uuid NOT NULL,
         tag_id int8 NOT NULL,
         -------------------------------------
-        created_at timestamptz NOT NULL DEFAULT now(),
-        updated_at timestamptz NOT NULL DEFAULT now(),
-        deleted_at timestamptz NULL,
-        -------------------------------------
         CONSTRAINT product_tags_pkey PRIMARY KEY (id)
-    );
+    ) INHERITS (TABLE_BASE);
 
 DROP TABLE IF EXISTS public.products_specs;
 
@@ -166,25 +150,5 @@ CREATE TABLE
         spec_field_id int8 NOT NULL,
         value text NULL,
         -------------------------------------
-        created_at timestamptz NOT NULL DEFAULT now(),
-        updated_at timestamptz NOT NULL DEFAULT now(),
-        deleted_at timestamptz NULL,
-        -------------------------------------
         CONSTRAINT products_specs_pkey PRIMARY KEY (id)
-    );
-
-DROP TABLE IF EXISTS public.product_attributes;
-
-CREATE TABLE
-    public.products_attributes (
-        id bigserial,
-        product_id uuid NOT NULL,
-        attribute_id int8 NOT NULL,
-        value text NOT NULL,
-        -------------------------------------
-        created_at timestamptz NOT NULL DEFAULT now(),
-        updated_at timestamptz NOT NULL DEFAULT now(),
-        deleted_at timestamptz NULL,
-        -------------------------------------
-        CONSTRAINT product_attributes_pkey PRIMARY KEY (id)
-    );
+    ) INHERITS (TABLE_BASE);

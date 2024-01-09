@@ -11,7 +11,7 @@ CREATE TRIGGER
 	INSERT
 	    ON public.products FOR each row
 	execute
-	    function fn_after_create_product_update_product_categories ()
+	    function fn_after_create_product_update_categories ()
 ; 
 
 CREATE TRIGGER 

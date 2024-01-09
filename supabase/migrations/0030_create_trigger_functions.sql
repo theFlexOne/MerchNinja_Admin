@@ -13,13 +13,13 @@ LANGUAGE plpgsql SECURITY DEFINER AS
 	END;
 $$; 
 
-CREATE OR REPLACE FUNCTION public.fn_after_create_product_update_product_categories
+CREATE OR REPLACE FUNCTION public.fn_after_create_product_update_categories
 () RETURNS TRIGGER 
 LANGUAGE plpgsql AS 
 	$$ BEGIN
     UPDATE products
     SET
-        categories = fn_get_product_categories (NEW.id)
+        categories = fn_get_categories (NEW.id)
     WHERE id = NEW.id;
     RETURN NEW;
 	END;
@@ -116,7 +116,7 @@ CREATE OR REPLACE FUNCTION public.fn_trg_remove_attribute_id
 () RETURNS TRIGGER 
 LANGUAGE plpgsql AS 
 	$$ BEGIN
-    UPDATE product_groups
+    UPDATE product_variants
     SET
         attribute_ids = array_remove (attribute_ids, OLD.id)
     WHERE
