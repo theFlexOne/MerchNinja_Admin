@@ -4,7 +4,7 @@ import useOutsideClick from '@/hooks/useOutsideClick';
 import useId from '@/hooks/useId';
 import useForwardRef from '@/hooks/useForwardRef';
 import InputFieldWrapper from './InputFieldWrapper';
-import { SelectOption } from '@/types/app.types';
+import { SelectOptionType } from '@/types/app.types';
 import { IoChevronDownSharp as ChevronDownIcon } from 'react-icons/io5';
 
 const Select = forwardRef(
@@ -17,12 +17,17 @@ const Select = forwardRef(
       onChange,
       onBlur,
       options,
-      containerProps = {},
+      containerProps: {
+        className: containerClassName = '',
+        ...containerProps
+      } = {
+        className: '',
+      },
       dropdownProps = {},
     }: SelectProps,
     ref: React.Ref<HTMLSelectElement>
   ) => {
-    const [selectedOption, setSelectedOption] = useState<SelectOption>(
+    const [selectedOption, setSelectedOption] = useState<SelectOptionType>(
       options[0]
     );
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -33,20 +38,26 @@ const Select = forwardRef(
     const customSelectRef = useRef<HTMLButtonElement>(null);
     const containerRef = useOutsideClick(() => setIsDropdownOpen(false));
 
-    containerProps.className = getContainerClasses(
-      containerProps.className ?? ''
-    );
-
-    const handleOptionClick = (option: SelectOption) => {
+    const handleOptionClick = (option: SelectOptionType) => {
       if (!hiddenSelectRef.current) return;
       setSelectedOption(option);
       setIsDropdownOpen(false);
-      updateHiddenSelectValue(hiddenSelectRef, option);
+      hiddenSelectRef.current.value = option.value;
+      const changeEvent = new Event('change', { bubbles: true });
+      hiddenSelectRef.current.dispatchEvent(changeEvent);
     };
 
     return (
       <>
-        <div ref={containerRef} {...containerProps}>
+        <div
+          ref={containerRef}
+          className={cn([
+            'relative w-[30ch]',
+            'flex flex-col gap-2',
+            containerClassName,
+          ])}
+          {...containerProps}
+        >
           {label && (
             <span
               className='text-neutral-400 text-sm'
@@ -61,7 +72,11 @@ const Select = forwardRef(
               type='button'
               id={id}
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className={getInputClasses(className)}
+              className={cn([
+                'bg-transparent border-none outline-none',
+                'w-full px-2 py-1',
+                className,
+              ])}
               tabIndex={0}
             >
               <div className='w-full flex items-center'>
@@ -76,7 +91,7 @@ const Select = forwardRef(
               </div>
             </button>
           </InputFieldWrapper>
-          <DropdownMenu
+          <SelectDropdownMenu
             options={options}
             handleOptionClick={handleOptionClick}
             isDropdownOpen={isDropdownOpen}
@@ -90,35 +105,31 @@ const Select = forwardRef(
           onChange={onChange}
           onFocus={() => customSelectRef.current?.focus()}
           onBlur={onBlur}
-          defaultValue={selectedOption?.value}
+          defaultValue={selectedOption?.value ?? ''}
           id={id}
           className='absolute opacity-0 w-0 h-0'
           tabIndex={-1}
         >
-          {options.map((option) => (
-            <option key={option.value as React.Key} value={option.value}>
-              {option.label}
-            </option>
-          ))}
+          {renderNativeOptions(options)}
         </select>
       </>
     );
   }
 );
 
-function DropdownMenu({
+function SelectDropdownMenu({
   options,
   handleOptionClick,
   isDropdownOpen,
   dropdownProps = {},
   selectedOption,
 }: {
-  options: Array<SelectOption>;
-  handleOptionClick: (option: SelectOption) => void;
+  options: Array<SelectOptionType>;
+  handleOptionClick: (option: SelectOptionType) => void;
   isDropdownOpen: boolean;
   dropdownProps?: React.HTMLProps<HTMLDialogElement>;
   containerProps?: React.HTMLProps<HTMLDivElement>;
-  selectedOption: SelectOption;
+  selectedOption: SelectOptionType;
 }) {
   return (
     <dialog
@@ -131,54 +142,69 @@ function DropdownMenu({
     >
       <div className='w-[min(auto,_100%)]'>
         <ul className='bg-f1-dark-alt rounded shadow-lg z-20 text-neutral-200 transition-all duration-200 ease-in-out overflow-hidden'>
-          {options.map((option) => (
-            <li key={option.value}>
-              <button
-                type='button'
-                className={cn([
-                  'w-full px-4 py-2',
-                  'text-left',
-                  'hover:bg-primary-500/40',
-                  {
-                    'bg-neutral-600/40': option.value === selectedOption?.value,
-                  },
-                ])}
-                onClick={() => handleOptionClick(option)}
-              >
-                {option.label}
-              </button>
-            </li>
-          ))}
+          {renderOptions(options, handleOptionClick, selectedOption)}
         </ul>
       </div>
     </dialog>
   );
 }
 
-function updateHiddenSelectValue(
-  hiddenSelectRef: React.RefObject<HTMLSelectElement>,
-  option: SelectOption
+function renderNativeOptions(options: Array<SelectOptionType>) {
+  return options.map((option) => {
+    if (option.children) {
+      return (
+        <optgroup key={option.id} label={option.label}>
+          {renderNativeOptions(option.children)}
+        </optgroup>
+      );
+    }
+    return (
+      <option key={option.id} value={option.value}>
+        {option.label}
+      </option>
+    );
+  });
+}
+
+function renderOptions(
+  options: Array<SelectOptionType>,
+  handleOptionClick: (option: SelectOptionType) => void,
+  selectedOption: SelectOptionType | null
 ) {
-  if (!hiddenSelectRef.current) return;
-  hiddenSelectRef.current.value = '' + option.value;
-  const changeEvent = new Event('change', { bubbles: true });
-  hiddenSelectRef.current.dispatchEvent(changeEvent);
-}
-
-function getInputClasses(className: string) {
-  return cn([
-    'bg-transparent border-none outline-none',
-    'w-full px-2 py-1',
-    className,
-  ]);
-}
-
-function getContainerClasses(className: string) {
-  return cn(['relative w-[30ch]', 'flex flex-col gap-2', className]);
+  return options.map((option) => {
+    if (option.children) {
+      return (
+        <li key={option.id}>
+          <span>{option.label}</span>
+          <ul>
+            {renderOptions(option.children, handleOptionClick, selectedOption)}
+          </ul>
+        </li>
+      );
+    }
+    return (
+      <li key={option.value}>
+        <button
+          type='button'
+          className={cn([
+            'w-full px-4 py-2',
+            'text-left',
+            'hover:bg-primary-500/40',
+            {
+              'bg-neutral-600/40': option.value === selectedOption?.value,
+            },
+          ])}
+          onClick={() => handleOptionClick(option)}
+        >
+          {option.label}
+        </button>
+      </li>
+    );
+  });
 }
 
 type SelectProps = HTMLProps<HTMLSelectElement> & {
-  options: Array<SelectOption>;
+  options: Array<SelectOptionType>;
   containerProps?: React.HTMLProps<HTMLDivElement>;
   dropdownProps?: React.HTMLProps<HTMLDialogElement>;
 };

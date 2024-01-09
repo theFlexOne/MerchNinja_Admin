@@ -1,9 +1,16 @@
 import { Database } from './database.types';
 
-export type SelectOption = {
-  id: string | null;
+export type SelectOptionType = {
+  id: string;
   label: string;
-  value: string | null;
+  value: string;
+  children?: SelectOptionChildType[];
+};
+
+export type SelectOptionChildType = {
+  id: string;
+  label: string;
+  value: string;
 };
 
 export type Tab = { name: string; element: React.FC };

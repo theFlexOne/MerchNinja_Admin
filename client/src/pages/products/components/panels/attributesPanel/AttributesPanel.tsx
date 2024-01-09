@@ -1,17 +1,17 @@
 import Panel from '@/components/layout/panel/Panel';
 import PanelBody from '@/components/layout/panel/PanelBody';
 import PanelHeader from '@/components/layout/panel/PanelHeader';
-import { ProductAttribute, ProductGroup } from '@/types/models.types';
+import { ProductAttribute, FullProductSet } from '@/types/models.types';
 import { useState } from 'react';
-import ProductGroupSelect from './ProductGroupSelect';
+import ProductSetSelect from '../../ProductSetSelect';
 import AttributesList from './AttributesList';
 import TextInput from '@/components/form/TextInput';
 import InputFieldWrapper from '@/components/form/InputFieldWrapper';
 
 const AttributesPanel = () => {
   const [attributeList, setAttributeList] = useState<ProductAttribute[]>([]);
-  const [selectedProductGroup, setSelectedProductGroup] =
-    useState<ProductGroup | null>(null);
+  const [selectedProductSet, setSelectedProductSet] =
+    useState<FullProductSet | null>(null);
 
   const handleAddAttribute = (name: string, value: string) => {
     if (attributeList.some((attribute) => attribute.name === name))
@@ -26,17 +26,17 @@ const AttributesPanel = () => {
     );
   };
 
-  const handleProductGroupChange = (productGroup: ProductGroup | null) => {
-    setSelectedProductGroup(productGroup);
+  const handleProductSetChange = (productSet: FullProductSet | null) => {
+    setSelectedProductSet(productSet);
   };
 
-  console.log('selectedProductGroup', selectedProductGroup);
+  console.log('selectedProductSet', selectedProductSet);
 
   return (
     <Panel>
       <PanelHeader>Product Attributes</PanelHeader>
       <PanelBody>
-        <ProductGroupSelect onChange={handleProductGroupChange} />
+        <ProductSetSelect onChange={handleProductSetChange} />
         <div className='grid grid-cols-[1fr,1fr,auto] gap-y-4'>
           {!!attributeList.length && (
             <AttributesList
@@ -44,10 +44,8 @@ const AttributesPanel = () => {
               onDeleteAttribute={handleDeleteAttribute}
             />
           )}
-          {selectedProductGroup ? (
-            <ProductGroupAttributeList
-              selectedProductGroup={selectedProductGroup}
-            />
+          {selectedProductSet ? (
+            <ProductSetAttributeList selectedProductSet={selectedProductSet} />
           ) : (
             <AttributeList
               handleAttributeChange={() => {}}
@@ -60,12 +58,12 @@ const AttributesPanel = () => {
   );
 };
 
-function ProductGroupAttributeList({
-  selectedProductGroup,
+function ProductSetAttributeList({
+  selectedProductSet,
 }: {
-  selectedProductGroup: ProductGroup;
+  selectedProductSet: FullProductSet;
 }) {
-  return selectedProductGroup.attributes.map((attribute) => (
+  return selectedProductSet.attributes.map((attribute) => (
     <div className='flex gap-4' key={attribute.id ?? attribute.name}>
       <InputFieldWrapper label='Name' className='text-sm text-center'>
         <p>{attribute.name}</p>

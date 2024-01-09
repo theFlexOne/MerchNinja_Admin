@@ -34,10 +34,65 @@ export interface Database {
   }
   public: {
     Tables: {
+      attribute_fields: {
+        Row: {
+          created_at: string
+          deleted: boolean
+          deleted_at: string | null
+          id: number
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      brands: {
+        Row: {
+          created_at: string
+          deleted: boolean
+          deleted_at: string | null
+          id: number
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cart_items: {
         Row: {
           cart_id: number
           created_at: string
+          deleted: boolean
           deleted_at: string | null
           id: number
           quantity: number
@@ -46,16 +101,18 @@ export interface Database {
         Insert: {
           cart_id: number
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
-          id?: never
+          id?: number
           quantity: number
           updated_at?: string
         }
         Update: {
           cart_id?: number
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
-          id?: never
+          id?: number
           quantity?: number
           updated_at?: string
         }
@@ -73,6 +130,7 @@ export interface Database {
         Row: {
           created_at: string
           customer_id: string
+          deleted: boolean
           deleted_at: string | null
           id: number
           updated_at: string
@@ -80,15 +138,17 @@ export interface Database {
         Insert: {
           created_at?: string
           customer_id: string
+          deleted?: boolean
           deleted_at?: string | null
-          id?: never
+          id?: number
           updated_at?: string
         }
         Update: {
           created_at?: string
           customer_id?: string
+          deleted?: boolean
           deleted_at?: string | null
-          id?: never
+          id?: number
           updated_at?: string
         }
         Relationships: [
@@ -100,6 +160,33 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      }
+      categories: {
+        Row: {
+          created_at: string
+          deleted: boolean
+          deleted_at: string | null
+          id: number
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       country_codes: {
         Row: {
@@ -128,6 +215,7 @@ export interface Database {
           country_code: number
           created_at: string
           customer_id: string
+          deleted: boolean
           deleted_at: string | null
           id: number
           state: string
@@ -141,8 +229,9 @@ export interface Database {
           country_code?: number
           created_at?: string
           customer_id: string
+          deleted?: boolean
           deleted_at?: string | null
-          id?: never
+          id?: number
           state: string
           street: string
           street2?: string | null
@@ -154,8 +243,9 @@ export interface Database {
           country_code?: number
           created_at?: string
           customer_id?: string
+          deleted?: boolean
           deleted_at?: string | null
-          id?: never
+          id?: number
           state?: string
           street?: string
           street2?: string | null
@@ -176,6 +266,7 @@ export interface Database {
         Row: {
           created_at: string
           customer_id: string
+          deleted: boolean
           deleted_at: string | null
           email: string
           id: string
@@ -185,6 +276,7 @@ export interface Database {
         Insert: {
           created_at?: string
           customer_id: string
+          deleted?: boolean
           deleted_at?: string | null
           email: string
           id?: string
@@ -194,6 +286,7 @@ export interface Database {
         Update: {
           created_at?: string
           customer_id?: string
+          deleted?: boolean
           deleted_at?: string | null
           email?: string
           id?: string
@@ -213,6 +306,7 @@ export interface Database {
       customers: {
         Row: {
           created_at: string
+          deleted: boolean
           deleted_at: string | null
           first_name: string | null
           id: string
@@ -222,6 +316,7 @@ export interface Database {
         }
         Insert: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           first_name?: string | null
           id?: string
@@ -231,6 +326,7 @@ export interface Database {
         }
         Update: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           first_name?: string | null
           id?: string
@@ -251,6 +347,7 @@ export interface Database {
       discounts: {
         Row: {
           created_at: string
+          deleted: boolean
           deleted_at: string | null
           end_date: string | null
           id: string
@@ -262,6 +359,7 @@ export interface Database {
         }
         Insert: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           end_date?: string | null
           id?: string
@@ -273,6 +371,7 @@ export interface Database {
         }
         Update: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           end_date?: string | null
           id?: string
@@ -287,6 +386,7 @@ export interface Database {
       inventory: {
         Row: {
           created_at: string
+          deleted: boolean
           deleted_at: string | null
           id: number
           stock_quantity: number
@@ -294,15 +394,17 @@ export interface Database {
         }
         Insert: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
-          id?: never
+          id?: number
           stock_quantity: number
           updated_at?: string
         }
         Update: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
-          id?: never
+          id?: number
           stock_quantity?: number
           updated_at?: string
         }
@@ -311,6 +413,7 @@ export interface Database {
       order_items: {
         Row: {
           created_at: string
+          deleted: boolean
           deleted_at: string | null
           id: number
           order_id: string
@@ -320,8 +423,9 @@ export interface Database {
         }
         Insert: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
-          id?: never
+          id?: number
           order_id: string
           product_variant_id: number
           quantity: number
@@ -329,8 +433,9 @@ export interface Database {
         }
         Update: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
-          id?: never
+          id?: number
           order_id?: string
           product_variant_id?: number
           quantity?: number
@@ -350,6 +455,7 @@ export interface Database {
         Row: {
           created_at: string
           customer_id: string
+          deleted: boolean
           deleted_at: string | null
           id: string
           updated_at: string
@@ -357,6 +463,7 @@ export interface Database {
         Insert: {
           created_at?: string
           customer_id: string
+          deleted?: boolean
           deleted_at?: string | null
           id?: string
           updated_at?: string
@@ -364,6 +471,7 @@ export interface Database {
         Update: {
           created_at?: string
           customer_id?: string
+          deleted?: boolean
           deleted_at?: string | null
           id?: string
           updated_at?: string
@@ -381,6 +489,7 @@ export interface Database {
       orders_discounts: {
         Row: {
           created_at: string
+          deleted: boolean
           deleted_at: string | null
           discount_id: string
           id: number
@@ -389,6 +498,7 @@ export interface Database {
         }
         Insert: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           discount_id: string
           id?: number
@@ -397,6 +507,7 @@ export interface Database {
         }
         Update: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           discount_id?: string
           id?: number
@@ -420,96 +531,11 @@ export interface Database {
           }
         ]
       }
-      product_brands: {
-        Row: {
-          created_at: string
-          deleted_at: string | null
-          id: number
-          name: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          deleted_at?: string | null
-          id?: never
-          name: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          deleted_at?: string | null
-          id?: never
-          name?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      product_categories: {
-        Row: {
-          created_at: string
-          deleted_at: string | null
-          id: number
-          name: string
-          parent_id: number | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          deleted_at?: string | null
-          id?: number
-          name: string
-          parent_id?: number | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          deleted_at?: string | null
-          id?: number
-          name?: string
-          parent_id?: number | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "categories_parent_id_fkey"
-            columns: ["parent_id"]
-            isOneToOne: false
-            referencedRelation: "product_categories"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      product_groups: {
-        Row: {
-          attribute_ids: number[]
-          created_at: string
-          deleted_at: string | null
-          id: number
-          name: string
-          updated_at: string
-        }
-        Insert: {
-          attribute_ids?: number[]
-          created_at?: string
-          deleted_at?: string | null
-          id?: number
-          name: string
-          updated_at?: string
-        }
-        Update: {
-          attribute_ids?: number[]
-          created_at?: string
-          deleted_at?: string | null
-          id?: number
-          name?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
       product_reviews: {
         Row: {
           created_at: string
           customer_id: string
+          deleted: boolean
           deleted_at: string | null
           id: number
           message: string
@@ -520,6 +546,7 @@ export interface Database {
         Insert: {
           created_at?: string
           customer_id: string
+          deleted?: boolean
           deleted_at?: string | null
           id?: number
           message?: string
@@ -530,6 +557,7 @@ export interface Database {
         Update: {
           created_at?: string
           customer_id?: string
+          deleted?: boolean
           deleted_at?: string | null
           id?: number
           message?: string
@@ -547,9 +575,25 @@ export interface Database {
           }
         ]
       }
+      product_status_types: {
+        Row: {
+          label: string
+          name: string
+        }
+        Insert: {
+          label: string
+          name: string
+        }
+        Update: {
+          label?: string
+          name?: string
+        }
+        Relationships: []
+      }
       product_tags: {
         Row: {
           created_at: string
+          deleted: boolean
           deleted_at: string | null
           id: number
           product_id: string
@@ -558,6 +602,7 @@ export interface Database {
         }
         Insert: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           id?: number
           product_id: string
@@ -566,6 +611,7 @@ export interface Database {
         }
         Update: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           id?: number
           product_id?: string
@@ -589,49 +635,124 @@ export interface Database {
           }
         ]
       }
+      product_variant_attributes: {
+        Row: {
+          created_at: string
+          deleted: boolean
+          deleted_at: string | null
+          id: number
+          product_attribute_id: number
+          product_variant_id: number
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          product_attribute_id: number
+          product_variant_id: number
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          product_attribute_id?: number
+          product_variant_id?: number
+          updated_at?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_variant_attributes_product_attribute_id_fkey"
+            columns: ["product_attribute_id"]
+            isOneToOne: false
+            referencedRelation: "products_attributes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_variant_attributes_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      product_variants: {
+        Row: {
+          created_at: string
+          deleted: boolean
+          deleted_at: string | null
+          id: number
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
+          base_price: number | null
           brand_id: number | null
-          briefdescription: string | null
-          categories: string[] | null
-          category_id: number | null
           created_at: string
+          deleted: boolean
           deleted_at: string | null
           description: string | null
           id: string
           name: string
-          price: number | null
-          product_group_id: number | null
+          specs: Json | null
+          status: string
+          subcategory_id: number | null
           thumbnail: string | null
           updated_at: string
         }
         Insert: {
+          base_price?: number | null
           brand_id?: number | null
-          briefdescription?: string | null
-          categories?: string[] | null
-          category_id?: number | null
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           description?: string | null
           id?: string
           name: string
-          price?: number | null
-          product_group_id?: number | null
+          specs?: Json | null
+          status?: string
+          subcategory_id?: number | null
           thumbnail?: string | null
           updated_at?: string
         }
         Update: {
+          base_price?: number | null
           brand_id?: number | null
-          briefdescription?: string | null
-          categories?: string[] | null
-          category_id?: number | null
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           description?: string | null
           id?: string
           name?: string
-          price?: number | null
-          product_group_id?: number | null
+          specs?: Json | null
+          status?: string
+          subcategory_id?: number | null
           thumbnail?: string | null
           updated_at?: string
         }
@@ -640,29 +761,23 @@ export interface Database {
             foreignKeyName: "products_brand_id_fkey"
             columns: ["brand_id"]
             isOneToOne: false
-            referencedRelation: "product_brands"
+            referencedRelation: "brands"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "products_category_id_fkey"
-            columns: ["category_id"]
+            foreignKeyName: "products_subcategory_id_fkey"
+            columns: ["subcategory_id"]
             isOneToOne: false
-            referencedRelation: "product_categories"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "products_product_group_id_fkey"
-            columns: ["product_group_id"]
-            isOneToOne: false
-            referencedRelation: "product_groups"
+            referencedRelation: "subcategories"
             referencedColumns: ["id"]
           }
         ]
       }
       products_attributes: {
         Row: {
-          attribute_id: number
+          attribute_field_id: number
           created_at: string
+          deleted: boolean
           deleted_at: string | null
           id: number
           product_id: string
@@ -670,8 +785,9 @@ export interface Database {
           value: string
         }
         Insert: {
-          attribute_id: number
+          attribute_field_id: number
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           id?: number
           product_id: string
@@ -679,19 +795,36 @@ export interface Database {
           value: string
         }
         Update: {
-          attribute_id?: number
+          attribute_field_id?: number
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           id?: number
           product_id?: string
           updated_at?: string
           value?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "products_attributes_attribute_field_id_fkey"
+            columns: ["attribute_field_id"]
+            isOneToOne: false
+            referencedRelation: "attribute_fields"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_attributes_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       products_specs: {
         Row: {
           created_at: string
+          deleted: boolean
           deleted_at: string | null
           id: number
           product_id: string
@@ -701,6 +834,7 @@ export interface Database {
         }
         Insert: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           id?: number
           product_id: string
@@ -710,6 +844,7 @@ export interface Database {
         }
         Update: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           id?: number
           product_id?: string
@@ -737,27 +872,7 @@ export interface Database {
       spec_fields: {
         Row: {
           created_at: string
-          id: number
-          name: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          name: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          name?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      tags: {
-        Row: {
-          created_at: string
+          deleted: boolean
           deleted_at: string | null
           id: number
           name: string
@@ -765,6 +880,7 @@ export interface Database {
         }
         Insert: {
           created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           id?: number
           name: string
@@ -772,6 +888,93 @@ export interface Database {
         }
         Update: {
           created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      subcategories: {
+        Row: {
+          category_id: number
+          created_at: string
+          deleted: boolean
+          deleted_at: string | null
+          id: number
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          category_id: number
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          category_id?: number
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subcategories_categories_id_fk"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      table_base: {
+        Row: {
+          created_at: string
+          deleted: boolean
+          deleted_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      tags: {
+        Row: {
+          created_at: string
+          deleted: boolean
+          deleted_at: string | null
+          id: number
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted?: boolean
           deleted_at?: string | null
           id?: number
           name?: string
@@ -810,7 +1013,7 @@ export interface Database {
           parent_id: number
         }[]
       }
-      fn_check_attribute_ids_exist: {
+      fn_check_attribute_fn_ids_exist: {
         Args: {
           p_attribute_ids: number[]
         }
@@ -829,12 +1032,20 @@ export interface Database {
         }
         Returns: boolean
       }
-      fn_create_categories: {
-        Args: {
-          p_category_names: string[]
-        }
-        Returns: number
-      }
+      fn_create_categories:
+        | {
+            Args: {
+              p_category_names: string[]
+            }
+            Returns: number
+          }
+        | {
+            Args: {
+              p_product_id: string
+              p_category_id: number
+            }
+            Returns: number
+          }
       fn_create_category: {
         Args: {
           p_name: string
@@ -846,7 +1057,7 @@ export interface Database {
         Args: {
           p_name: string
           p_description: string
-          p_price: number
+          p_base_price: number
           p_thumbnail: string
           p_brand: string
           p_category: string
@@ -855,13 +1066,6 @@ export interface Database {
           p_tags: string[]
         }
         Returns: string
-      }
-      fn_create_product_categories: {
-        Args: {
-          p_product_id: string
-          p_category_id: number
-        }
-        Returns: number
       }
       fn_create_product_specs: {
         Args: {
@@ -874,33 +1078,6 @@ export interface Database {
         Args: {
           p_product_id: string
           p_tags: string[]
-        }
-        Returns: undefined
-      }
-      fn_create_product_variant:
-        | {
-            Args: {
-              p_product_id: string
-              p_price: number
-              p_image_urls: string[]
-              p_specs: Json
-            }
-            Returns: number
-          }
-        | {
-            Args: {
-              p_product_id: string
-              p_price_offset: number
-              p_stock_quantity: number
-              p_image_urls: string[]
-              p_attributes: Json
-            }
-            Returns: undefined
-          }
-      fn_create_product_variant_specs: {
-        Args: {
-          p_variant_id: number
-          p_specs: Json
         }
         Returns: undefined
       }
@@ -931,6 +1108,12 @@ export interface Database {
         }
         Returns: number
       }
+      fn_get_categories: {
+        Args: {
+          p_product_id: string
+        }
+        Returns: unknown
+      }
       fn_get_category_chain: {
         Args: {
           p_product_id: string
@@ -947,33 +1130,15 @@ export interface Database {
         }
         Returns: Json
       }
-      fn_get_product_categories: {
+      fn_get_product_rating: {
         Args: {
-          p_product_id: string
+          p_product_id: number
         }
-        Returns: unknown
-      }
-      fn_get_product_product_variants_ids: {
-        Args: {
-          p_product_id: string
-        }
-        Returns: unknown
+        Returns: number
       }
       fn_get_product_specs: {
         Args: {
           p_product_id: string
-        }
-        Returns: Json
-      }
-      fn_get_product_variant_rating: {
-        Args: {
-          p_variant_id: number
-        }
-        Returns: number
-      }
-      fn_get_product_variant_specs: {
-        Args: {
-          p_variant_id: number
         }
         Returns: Json
       }
@@ -989,20 +1154,14 @@ export interface Database {
         }
         Returns: unknown
       }
-      fn_is_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
-      fn_is_product_discounted: {
-        Args: {
-          p_product_id: string
-        }
-        Returns: boolean
-      }
-      ids_exist: {
+      fn_ids_exist: {
         Args: {
           ids: number[]
         }
+        Returns: boolean
+      }
+      fn_is_admin: {
+        Args: Record<PropertyKey, never>
         Returns: boolean
       }
     }

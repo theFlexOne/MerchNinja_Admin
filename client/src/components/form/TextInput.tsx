@@ -1,4 +1,4 @@
-import { HTMLProps, forwardRef } from 'react';
+import { ComponentPropsWithoutRef, forwardRef } from 'react';
 import BaseTextInput from './base/BaseTextInput';
 
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
@@ -10,14 +10,13 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             {label}
           </label>
         )}
-        {/* @ts-expect-error forwardRef */}
         <BaseTextInput ref={ref} {...inputProps} />
       </div>
     );
   }
 );
 
-type TextInputProps = HTMLProps<HTMLInputElement> & {
+type TextInputProps = ComponentPropsWithoutRef<'input'> & {
   label?: string;
   type?: TextInputType;
   containerProps?: React.HTMLProps<HTMLDivElement>;

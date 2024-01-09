@@ -19,7 +19,7 @@
 
 ```json
 {
-  "productGroups": [
+  "productSets": [
     {
       "id": "number",
       "name": "string"

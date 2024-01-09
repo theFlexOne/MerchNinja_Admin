@@ -58,7 +58,7 @@
   "name": "string",
   "description": "string",
   "briefDescription": "string",
-  "productGroup": {
+  "productSet": {
     "id": "uuid",
     "name": "string",
     "attributes": [

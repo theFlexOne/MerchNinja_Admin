@@ -2,8 +2,8 @@ import Select from '@/components/form/Select';
 import Panel from '@/components/layout/panel/Panel';
 import PanelBody from '@/components/layout/panel/PanelBody';
 import PanelHeader from '@/components/layout/panel/PanelHeader';
-import { SelectOption } from '@/types/app.types';
-import { Brand } from '@/types/models.types';
+import { SelectOptionType } from '@/types/app.types';
+import { FullBrand } from '@/types/models.types';
 import { fetchSupabaseData } from '@/utils';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -12,7 +12,7 @@ const BrandPanel = () => {
   const { register } = useFormContext();
   const brands: BrandDisplay[] = useBrands() as BrandDisplay[];
 
-  const options: SelectOption[] = [
+  const options: SelectOptionType[] = [
     { id: 'none', value: '', label: 'None' },
     ...brands.map((brand) => ({
       id: brand.id.toString(),
@@ -46,12 +46,12 @@ const BrandPanel = () => {
   );
 };
 
-function useBrands(): Partial<Brand>[] {
-  const [brands, setBrands] = useState<Partial<Brand>[]>([]);
+function useBrands(): Partial<FullBrand>[] {
+  const [brands, setBrands] = useState<Partial<FullBrand>[]>([]);
 
   useEffect(() => {
     const fetchBrands = async () => {
-      const data = await fetchSupabaseData<Partial<Brand>>('product_brands', [
+      const data = await fetchSupabaseData<Partial<FullBrand>>('brands', [
         'id',
         'name',
       ]);

@@ -3,40 +3,17 @@ import Panel from '@/components/layout/panel/Panel';
 import PanelBody from '@/components/layout/panel/PanelBody';
 import PanelHeader from '@/components/layout/panel/PanelHeader';
 import supabase from '@/lib/supabase/supabaseClient';
-import { SelectOption } from '@/types/app.types';
-import { Category } from '@/types/models.types';
+import { SelectOptionType } from '@/types/app.types';
 import { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-const CategoryPanel = () => {
-  const [categories, setCategories] = useState<
-    { id: number; name: string; parentId: number | null }[]
-  >([]);
-  const options: SelectOption[] = [
-    { id: 'none', value: '', label: 'None' },
-    ...(categories as Category[]).map((category) => ({
-      id: category.id.toString(),
-      value: category.id.toString(),
-      label: category.name,
-    })),
-  ];
-
-  useEffect(() => {
-    fetchCategories().then((data) => setCategories(data));
-  }, []);
-
-  console.log('categories', categories);
-
+export default function CategoryPanel() {
   return (
     <Panel>
       <PanelHeader className='flex'>Category</PanelHeader>
       <PanelBody>
         <div className='flex gap-8'>
-          <Select
-            options={options}
-            name='category'
-            id='category'
-            className='grow'
-          />
+          <CategorySelect />
           <button
             type='button'
             className='text-primary-500/80 text-xs min-w-fit'
@@ -47,13 +24,52 @@ const CategoryPanel = () => {
       </PanelBody>
     </Panel>
   );
-};
+}
+
+function CategorySelect() {
+  const [categories, setCategories] = useState<
+    {
+      id: number;
+      name: string;
+      subcategories: { id: number; name: string }[];
+    }[]
+  >([]);
+
+  const { register } = useFormContext();
+
+  const options: SelectOptionType[] = [
+    { id: 'none', value: '', label: 'None' },
+    ...categories.map((category) => ({
+      id: category.id.toString(),
+      value: category.id.toString(),
+      label: category.name,
+      children: category.subcategories.map((subcategory) => ({
+        id: subcategory.id.toString(),
+        value: subcategory.id.toString(),
+        label: subcategory.name,
+      })),
+    })),
+  ];
+
+  useEffect(() => {
+    fetchCategories().then((data) => setCategories(data));
+  }, []);
+
+  return (
+    <Select
+      options={options}
+      id='category'
+      className='grow'
+      {...register('category')}
+    />
+  );
+}
 
 async function fetchCategories() {
   try {
     const { data } = await supabase
-      .from('product_categories')
-      .select('id,name,parentId:parent_id')
+      .from('categories')
+      .select('id,name,subcategories(id,name)')
       .throwOnError();
     return data ?? [];
   } catch (error) {
@@ -61,16 +77,3 @@ async function fetchCategories() {
     return [];
   }
 }
-
-export default CategoryPanel;
-
-// const categories = [
-//   { value: 'electronics', label: 'Electronics' },
-//   { value: 'fashion', label: 'Fashion' },
-//   { value: 'food', label: 'Food' },
-//   { value: 'health', label: 'Health' },
-//   { value: 'sports', label: 'Sports' },
-//   { value: 'outdoor', label: 'Outdoor' },
-//   { value: 'home', label: 'Home' },
-//   { value: 'other', label: 'Other' },
-// ];

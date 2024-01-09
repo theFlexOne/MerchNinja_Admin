@@ -2,8 +2,6 @@ import { cn } from '@/utils/cn';
 import { ForwardedRef, forwardRef } from 'react';
 import InputFieldWrapper from '../InputFieldWrapper';
 
-type BaseTextInputProps = React.HTMLProps<HTMLInputElement>;
-
 const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
   (
     { className, ...props }: BaseTextInputProps,
@@ -14,7 +12,6 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
         <input
           ref={ref}
           className={cn([
-            'aboslute inset-0 w-full h-full',
             'bg-transparent border-none outline-none',
             'text-lg',
             'px-2 py-1',
@@ -29,3 +26,5 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
 );
 
 export default BaseTextInput;
+
+type BaseTextInputProps = React.HTMLProps<HTMLInputElement>;

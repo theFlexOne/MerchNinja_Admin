@@ -2,7 +2,7 @@ import Panel from '@/components/layout/panel/Panel';
 import PanelBody from '@/components/layout/panel/PanelBody';
 import { cn } from '@/utils/cn';
 
-export default function AddProductHeader({
+export default function AddProductPageHeader({
   children,
   className = '',
   saved,
