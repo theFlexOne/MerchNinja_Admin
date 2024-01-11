@@ -552,4 +552,4 @@ LANGUAGE plpgsql AS
 								JOIN temp_table ON attributes.id = temp_table.id
 				);
 	END;
-$$; 
+$$;

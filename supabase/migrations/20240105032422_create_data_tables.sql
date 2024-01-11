@@ -20,9 +20,3 @@ CREATE TABLE
         label text NOT NULL,
         CONSTRAINT product_status_types_pkey PRIMARY KEY (name)
     );
-
-INSERT INTO public.product_status_types ("name", label)
-VALUES 
-    ('DRAFT', 'Draft'),
-    ('PUBLISHED', 'Published'),
-    ('ARCHIVED', 'Archived');

@@ -21,8 +21,7 @@ DROP TABLE IF EXISTS public.product_variants;
 CREATE TABLE
     public.product_variants (
         id bigserial,
-        "name" text NOT NULL,
-        
+        product_id uuid NOT NULL,
         -------------------------------------
         CONSTRAINT product_variants_pkey PRIMARY KEY (id)
     ) INHERITS (TABLE_BASE);

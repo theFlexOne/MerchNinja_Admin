@@ -8,6 +8,7 @@
     "dev": "npm run dev --prefix client",
     "build": "npm run build --prefix client",
     "db:reset": "supabase db reset",
-    "gen:types": "supabase gen types typescript --local > client/src/types/database.types.ts"
+    "gen:types": "supabase gen types typescript --local > client/src/types/database.types.ts",
+    "reset:types": "bun run db:reset && bun run gen:types"
   }
 }

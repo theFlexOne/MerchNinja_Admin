@@ -689,7 +689,7 @@ export interface Database {
           deleted: boolean
           deleted_at: string | null
           id: number
-          name: string
+          product_id: string
           updated_at: string
         }
         Insert: {
@@ -697,7 +697,7 @@ export interface Database {
           deleted?: boolean
           deleted_at?: string | null
           id?: number
-          name: string
+          product_id: string
           updated_at?: string
         }
         Update: {
@@ -705,10 +705,18 @@ export interface Database {
           deleted?: boolean
           deleted_at?: string | null
           id?: number
-          name?: string
+          product_id?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "product_variants_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       products: {
         Row: {

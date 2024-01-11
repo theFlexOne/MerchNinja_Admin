@@ -39,3 +39,5 @@ ALTER TABLE public.products_attributes ADD CONSTRAINT products_attributes_attrib
 ALTER TABLE public.product_variant_attributes ADD CONSTRAINT product_variant_attributes_product_variant_id_fkey FOREIGN KEY (product_variant_id) REFERENCES public.product_variants (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE public.product_variant_attributes ADD CONSTRAINT product_variant_attributes_product_attribute_id_fkey FOREIGN KEY (product_attribute_id) REFERENCES public.products_attributes (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE public.product_variants ADD CONSTRAINT product_variants_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON DELETE CASCADE ON UPDATE CASCADE;
