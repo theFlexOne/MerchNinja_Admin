@@ -3,14 +3,14 @@ DROP TABLE IF EXISTS public.products;
 CREATE TABLE
     public.products (
         id uuid NOT NULL DEFAULT gen_random_uuid(),
-        "name" text NOT NULL,
+        "name" text NULL,
         description text NULL DEFAULT '':: text,
         thumbnail text NULL,
         base_price numeric NULL DEFAULT 0.00,
         brand_id int8 NULL,
         subcategory_id int8 NULL,
         status text NOT NULL DEFAULT 'DRAFT':: text,
-        specs jsonb NULL,
+        metadata jsonb NOT NULL DEFAULT '{}':: jsonb,
         -------------------------------------
         CONSTRAINT products_pkey PRIMARY KEY (id),
         CONSTRAINT products_name_key UNIQUE (name)
@@ -43,7 +43,6 @@ CREATE TABLE
         id BIGSERIAL NOT NULL,
         product_id uuid NOT NULL,
         attribute_field_id int8 NOT NULL,
-        value text NOT NULL,
         -------------------------------------
         CONSTRAINT products_attributes_pkey PRIMARY KEY (id)
     ) INHERITS (TABLE_BASE);
@@ -150,4 +149,13 @@ CREATE TABLE
         value text NULL,
         -------------------------------------
         CONSTRAINT products_specs_pkey PRIMARY KEY (id)
+    ) INHERITS (TABLE_BASE);
+
+CREATE TABLE
+    public.product_variant_images (
+        id bigserial,
+        product_variant_id int8 NOT NULL,
+        image text NOT NULL,
+        -------------------------------------
+        CONSTRAINT product_variant_images_pkey PRIMARY KEY (id)
     ) INHERITS (TABLE_BASE);

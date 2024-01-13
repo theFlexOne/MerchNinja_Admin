@@ -13,18 +13,6 @@ LANGUAGE plpgsql SECURITY DEFINER AS
 	END;
 $$; 
 
-CREATE OR REPLACE FUNCTION public.fn_after_create_product_update_categories
-() RETURNS TRIGGER 
-LANGUAGE plpgsql AS 
-	$$ BEGIN
-    UPDATE products
-    SET
-        categories = fn_get_categories (NEW.id)
-    WHERE id = NEW.id;
-    RETURN NEW;
-	END;
-$$; 
-
 CREATE OR REPLACE FUNCTION public.fn_after_create_user
 () RETURNS TRIGGER 
 LANGUAGE plpgsql SECURITY DEFINER AS 
@@ -135,4 +123,16 @@ LANGUAGE plpgsql AS
     WHERE id = NEW.variant_id;
     RETURN NEW;
 	END;
-$$; 
+$$;
+
+CREATE OR REPLACE FUNCTION public.fn_trg_validate_product_before_publish()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+begin
+	IF NEW.name IS NULL OR NEW.name= '' THEN
+        RAISE EXCEPTION 'The product name cannot be empty.';
+    END IF;
+end;
+$function$
+;
