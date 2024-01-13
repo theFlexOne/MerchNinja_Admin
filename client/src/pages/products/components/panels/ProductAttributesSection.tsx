@@ -26,6 +26,7 @@ export default function ProductAttributesSection({
   function handleAddAttribute() {
     if (!currentAttributeNameValue) return;
     addAttribute(currentAttributeNameValue);
+    setCurrentAttributeNameValue('');
   }
 
   function handleRemoveAttribute(attributeId: string) {
@@ -42,13 +43,15 @@ export default function ProductAttributesSection({
   console.log(attributeList);
 
   return (
-    <div>
-      <div>
+    <div className='px-6'>
+      <div className='flex gap-2 items-center'>
         <TextInput
           value={currentAttributeNameValue}
           onChange={handleAttributeNameChange}
         />
-        <Button onClick={handleAddAttribute}>Add</Button>
+        <Button className='p-1 ml-auto' onClick={handleAddAttribute}>
+          Add
+        </Button>
       </div>
       <ul className='flex flex-col gap-2'>
         {attributeList.map((attr) => (
@@ -73,23 +76,27 @@ function AttributeListItem({
   onRemove: (name: string) => void;
   updateAttribute: (oldAttribute: string, newAttribute: string) => void;
 }) {
-  const editableRef = useRef<HTMLSpanElement>(null);
+  const [editable, setEditable] = useState<boolean>(false);
+  const prevName = useRef<string>(name);
 
   function handleEditAttribute() {
-    if (!editableRef.current) return;
-    editableRef.current.contentEditable = 'true';
-    editableRef.current.focus();
+    setEditable(true);
+  }
 
-    editableRef.current.addEventListener('blur', () => {
-      if (!editableRef.current) return;
-      editableRef.current?.removeAttribute('contenteditable');
-      updateAttribute(name, editableRef.current.textContent ?? '');
-    });
+  function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
+    setEditable(false);
+    const newName = e.target.value;
+    updateAttribute(prevName.current, newName);
+    prevName.current = newName;
   }
 
   return (
-    <li className='flex'>
-      <span ref={editableRef}>{name}</span>
+    <li className='flex p-2'>
+      {editable ? (
+        <TextInput defaultValue={name} onBlur={handleBlur} autoFocus />
+      ) : (
+        <span>{name}</span>
+      )}
       <div className='ml-auto'>
         <button type='button' onClick={handleEditAttribute}>
           <EditIcon />

@@ -13,10 +13,8 @@ export default function AppHeader() {
   useEffect(() => {
     window.addEventListener('scroll', () => {
       if (window.scrollY > 0) {
-        console.log('scrolled');
         setIsScrolled(true);
       } else {
-        console.log('not scrolled');
         setIsScrolled(false);
       }
     });

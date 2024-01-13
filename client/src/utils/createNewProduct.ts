@@ -1,135 +1,82 @@
+import { Tables } from '@/types/database.types';
 import supabase from '../lib/supabase/supabaseClient';
+import { FieldValues } from 'react-hook-form';
 
-export default async function createNewProduct(productData: ProductCreationData) {
-  try {    
-    const {data: newProduct, error} = await supabase
-    .from('products')
-    .insert(
-      {
-        name: productData.name,
-        description: productData.description,
-        base_price: productData.base_price,
-        thumbnail: productData.thumbnail,
-        brandId: productData.brandId,
-        subcategoryId: productData.subcategoryId,
-        status: productData.status,
-        tags: productData.tags,
-        metaData: productData.metaData,
-      },
-    ).select().single();
-    
-    if (error) throw error;
-    const newProductVariants = await createProductVariants(productData.variants, newProduct.id);
-    return {...newProduct, variants: newProductVariants}
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function createProductVariants(variants: Variant[], productId: string) {
+export default async function createNewProduct(data: FieldValues) {
+  const productData: ProductCreationData = mapFormDataToProductData(data);
   try {
-    const { data: newProductVariants, error } = await supabase
-    .from('product_variants')
-    .insert(variants.map((variant) => {
-      return {
-        "product_id": productId,
-        "attributes": variant.attributes,
-      }}))
-    .select();
-    if (error) throw error;
-    newProductVariants.forEach(async (variant, index) => {
-      await 
-    return newProductVariants;
+    const newProduct = await createProduct(productData);
+    console.log('New product created: ', newProduct);
+
+    const tags = await createProductTags(data.tags, newProduct.id);
+
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
-const exampleProduct = {
+const exampleProduct: ProductCreationData = {
   name: 'Sample T-Shirt',
-  description: 'A comfortable cotton t-shirt with a unique print',
   base_price: 19.99,
-  thumbnail: 'https://example.com/thumbnail.jpg',
-  brandId: 1,
-  subcategoryId: 2,
-  status: 'available',
-  tags: ['casual', 'cotton', 'print'],
-  metaData: {
-    key: 'value',
+  description: 'A comfortable cotton t-shirt with a unique print',
+  brand_id: 1,
+  subcategory_id: 2,
+  status: 'DRAFT',
+  metadata: {
+    material: 'cotton',
+    fit: 'regular',
   },
-  variants: [
-    {
-      price: 22.99,
-      sku: 'TSHT-001-SM',
-      quantity: 50,
-      images: [
-        'https://example.com/image1.jpg',
-        'https://example.com/image2.jpg',
-      ],
-      metaData: {
-        material: 'cotton',
-        care_instructions: 'Machine wash',
-      },
-      attributes: [
-        {
-          key: 'size',
-          value: 'small',
-        },
-        {
-          key: 'color',
-          value: 'blue',
-        },
-      ],
-    },
-    {
-      price: 22.99,
-      sku: 'TSHT-001-MD',
-      quantity: 50,
-      images: [
-        'https://example.com/image1.jpg',
-        'https://example.com/image2.jpg',
-      ],
-      metaData: {
-        material: 'cotton',
-        care_instructions: 'Machine wash',
-      },
-      attributes: [
-        {
-          key: 'size',
-          value: 'medium',
-        },
-        {
-          key: 'color',
-          value: 'blue',
-        },
-      ],
-    },
-  ],
 };
 
-type ProductCreationData = {
+export type ProductCreationData = Partial<Tables<'products'>> & {
   name: string;
-  description: string;
-  base_price: number;
-  thumbnail: string;
-  brandId: number;
-  subcategoryId: number;
-  status: string;
-  tags: string[];
-  metaData: Record<string, string | number>;
-  variants: Variant[];
 };
 
-type Variant = {
-  price: number;
-  sku: string;
-  quantity: number;
-  images: string[];
-  metaData: Record<string, string | number>;
-  attributes: Attribute[];
-};
+async function createProduct(
+  createProductData: ProductCreationData
+): Promise<Tables<'products'>> {
+  const { data, error } = await supabase
+    .from('products')
+    .insert(createProductData)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
 
-type Attribute = {
-  key: string;
-  value: string;
-};
+async function createProductTags(tags: string[], productId: number): Promise<Tables<'tags'>[]> {
+  const tagData = tags.map((tag) => ({
+    name: tag,
+    product_id: productId,
+  }));
+
+  const { data, error } = await supabase
+    .from('tags')
+    .insert(tagData)
+    .select('id');
+  if (error) throw error;
+  return data;
+}
+
+async function createProductAttributes
+
+function mapFormDataToProductData(data: FieldValues): ProductCreationData {
+  const metadata = data.metadata.reduce(
+    (acc: Record<string, unknown>, curr: { key: string; value: string }) => {
+      acc[curr.key] = curr.value;
+      return acc;
+    },
+    {} as ProductCreationData['metadata']
+  );
+
+  const productData: ProductCreationData = {
+    name: data.name,
+    base_price: data.base_price,
+    description: data.description,
+    brand_id: data.brand_id,
+    subcategory_id: data.subcategory_id,
+    status: 'DRAFT',
+    metadata,
+  };
+  return productData;
+}

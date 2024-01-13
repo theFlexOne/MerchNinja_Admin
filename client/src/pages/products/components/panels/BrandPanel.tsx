@@ -21,8 +21,6 @@ const BrandPanel = () => {
     })),
   ];
 
-  console.log('brands', brands);
-
   return (
     <Panel>
       <PanelHeader className='flex'>Brand</PanelHeader>

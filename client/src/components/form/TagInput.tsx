@@ -6,12 +6,20 @@ import { cn } from '@/utils';
 export default function TagInput({
   handleAddTag,
 }: {
-  handleAddTag: (tagValue: string) => void;
+  handleAddTag: (tagValue: string) => boolean;
 }) {
   const [tagValue, setTagValue] = useState<string>('');
+
   function handleKeyUp(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') {
       handleAddTag(tagValue);
+    }
+  }
+
+  function handleAddTagClick() {
+    const success = handleAddTag(tagValue);
+    if (success) {
+      setTagValue('');
     }
   }
 
@@ -35,7 +43,7 @@ export default function TagInput({
           'disabled:text-neutral-400/70 disabled:bg-transparent',
           'hover:bg-neutral-100/20',
         ])}
-        onClick={() => handleAddTag(tagValue)}
+        onClick={handleAddTagClick}
       >
         <AddIcon />
       </button>

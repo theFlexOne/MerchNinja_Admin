@@ -2,7 +2,7 @@ import Panel from '@/components/layout/panel/Panel';
 import PanelBody from '@/components/layout/panel/PanelBody';
 import PanelHeader from '@/components/layout/panel/PanelHeader';
 import { useEffect, useState } from 'react';
-import Tooltip from '@/components/overlay/ToolTip';
+// import Tooltip from '@/components/overlay/ToolTip';
 import Tags from '@/components/form/Tags';
 import TagInput from '@/components/form/TagInput';
 import TagList from '@/components/form/TagList';
@@ -10,19 +10,20 @@ import { useFormContext } from 'react-hook-form';
 
 const TagsPanel = () => {
   const [tags, setTags] = useState<string[]>([]);
-  const [errors, setErrors] = useState<{ exists: boolean }>({ exists: false });
+  // const [errors, setErrors] = useState<{ exists: boolean }>({ exists: false });
 
   const { register, setValue } = useFormContext();
 
-  const handleAddTag = (tagValue: string) => {
+  const handleAddTag = (tagValue: string): boolean => {
     if (tags.includes(tagValue)) {
-      setErrors({ exists: true });
-      return;
+      // setErrors({ exists: true });
+      return false;
     }
     const allTags = [...tags, tagValue.trim()];
     setTags(allTags);
     setValue('tags', allTags);
-    setErrors({ exists: false });
+    // setErrors({ exists: false });
+    return true;
   };
 
   const handleRemoveTag = (tagToRemove: string) => {

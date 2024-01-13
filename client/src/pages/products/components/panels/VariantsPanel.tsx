@@ -6,6 +6,7 @@ import Tabs from '@/components/navigation/Tabs';
 import { useState } from 'react';
 import {} from 'react-router-dom';
 import ProductAttributesSection from './ProductAttributesSection';
+import VariantsSection from './VariantsSection';
 
 const tabs = ['Attributes', 'Variants'];
 
@@ -72,7 +73,9 @@ export default function VariantsPanel() {
             editAttribute={editAttribute}
           />
         )}
-        {activeTab === tabs[1] && <div>Variants</div>}
+        {activeTab === tabs[1] && (
+          <VariantsSection attributes={attributeList} />
+        )}
       </PanelBody>
     </Panel>
   );

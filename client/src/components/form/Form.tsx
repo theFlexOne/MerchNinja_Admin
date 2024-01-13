@@ -1,6 +1,11 @@
 import useId from '@/hooks/useId';
 import { cn } from '@/utils/cn';
-import { FormProvider, useForm } from 'react-hook-form';
+import {
+  FieldValues,
+  FormProvider,
+  SubmitHandler,
+  useForm,
+} from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import { useEffect } from 'react';
 
@@ -52,7 +57,7 @@ type FormProps = Omit<React.HTMLProps<HTMLFormElement>, 'onSubmit'> & {
   id?: string;
   children: React.ReactNode;
   onClose?: () => void;
-  onSubmit?: (data: Record<string, unknown>) => void;
+  onSubmit?: SubmitHandler<FieldValues>;
   methods: ReturnType<typeof useForm>;
   devtools?: boolean;
 };

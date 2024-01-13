@@ -727,8 +727,8 @@ export interface Database {
           deleted_at: string | null
           description: string | null
           id: string
+          metadata: Json | null
           name: string
-          specs: Json | null
           status: string
           subcategory_id: number | null
           thumbnail: string | null
@@ -742,8 +742,8 @@ export interface Database {
           deleted_at?: string | null
           description?: string | null
           id?: string
+          metadata?: Json | null
           name: string
-          specs?: Json | null
           status?: string
           subcategory_id?: number | null
           thumbnail?: string | null
@@ -757,8 +757,8 @@ export interface Database {
           deleted_at?: string | null
           description?: string | null
           id?: string
+          metadata?: Json | null
           name?: string
-          specs?: Json | null
           status?: string
           subcategory_id?: number | null
           thumbnail?: string | null

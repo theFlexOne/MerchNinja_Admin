@@ -12,7 +12,7 @@ export default function AppLayout() {
         <AppSidebar />
         <div className='flex flex-col ml-64'>
           <AppHeader />
-          <main className='grow flex mt-16'>
+          <main className='grow flex mt-16 w-full'>
             <Outlet />
           </main>
         </div>
