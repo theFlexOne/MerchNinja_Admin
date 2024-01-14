@@ -45,7 +45,7 @@ export default function AttributesPanel() {
   }
 
   useEffect(() => {
-    register('attributes');
+    register('attributes', { value: [] });
   }, [register]);
 
   return (

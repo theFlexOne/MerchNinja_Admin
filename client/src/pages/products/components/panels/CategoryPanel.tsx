@@ -60,7 +60,7 @@ function CategorySelect() {
       options={options}
       id='category'
       className='grow'
-      {...register('category')}
+      {...register('subcategory_id')}
     />
   );
 }

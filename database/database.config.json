@@ -1,0 +1,15 @@
+{
+  "tables": {
+    "policies": {
+      "read_all": [
+        "products",
+        "product_variants",
+        "product_variant_attributes",
+        "brands",
+        "categories",
+        "subcategories",
+        "product_reviews"
+      ]
+    }
+  }
+}

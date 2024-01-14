@@ -55,7 +55,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'error',
-    element: <div>Error</div>,
+    element: <div>Something went wrong. Please try again later.</div>,
   },
 ]);
 

@@ -1,12 +1,4 @@
 CREATE TRIGGER 
-	TRG_CHECK_VALID_PRODUCT_ATTRIBUTE before
-	INSERT
-	    ON public.products_attributes FOR each row
-	execute
-	    function fn_trg_check_valid_product_attribute ()
-; 
-
-CREATE TRIGGER 
 	TRG_AFTER_CREATE_CUSTOMER_CREATE_CART after
 	INSERT
 	    ON public.customers FOR each row

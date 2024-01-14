@@ -34,33 +34,6 @@ export interface Database {
   }
   public: {
     Tables: {
-      attribute_fields: {
-        Row: {
-          created_at: string
-          deleted: boolean
-          deleted_at: string | null
-          id: number
-          name: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          id?: number
-          name: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          id?: number
-          name?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
       brands: {
         Row: {
           created_at: string
@@ -538,9 +511,9 @@ export interface Database {
           deleted: boolean
           deleted_at: string | null
           id: number
-          message: string
           product_id: string
           rating: number
+          text: string
           updated_at: string
         }
         Insert: {
@@ -549,9 +522,9 @@ export interface Database {
           deleted?: boolean
           deleted_at?: string | null
           id?: number
-          message?: string
           product_id: string
           rating: number
+          text?: string
           updated_at?: string
         }
         Update: {
@@ -560,9 +533,9 @@ export interface Database {
           deleted?: boolean
           deleted_at?: string | null
           id?: number
-          message?: string
           product_id?: string
           rating?: number
+          text?: string
           updated_at?: string
         }
         Relationships: [
@@ -590,58 +563,13 @@ export interface Database {
         }
         Relationships: []
       }
-      product_tags: {
-        Row: {
-          created_at: string
-          deleted: boolean
-          deleted_at: string | null
-          id: number
-          product_id: string
-          tag_id: number
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          id?: number
-          product_id: string
-          tag_id: number
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          id?: number
-          product_id?: string
-          tag_id?: number
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "product_tags_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "product_tags_tag_id_fkey"
-            columns: ["tag_id"]
-            isOneToOne: false
-            referencedRelation: "tags"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       product_variant_attributes: {
         Row: {
           created_at: string
           deleted: boolean
           deleted_at: string | null
           id: number
-          product_attribute_id: number
+          name: string
           product_variant_id: number
           updated_at: string
           value: string
@@ -651,7 +579,7 @@ export interface Database {
           deleted?: boolean
           deleted_at?: string | null
           id?: number
-          product_attribute_id: number
+          name: string
           product_variant_id: number
           updated_at?: string
           value: string
@@ -661,19 +589,12 @@ export interface Database {
           deleted?: boolean
           deleted_at?: string | null
           id?: number
-          product_attribute_id?: number
+          name?: string
           product_variant_id?: number
           updated_at?: string
           value?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "product_variant_attributes_product_attribute_id_fkey"
-            columns: ["product_attribute_id"]
-            isOneToOne: false
-            referencedRelation: "products_attributes"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "product_variant_attributes_product_variant_id_fkey"
             columns: ["product_variant_id"]
@@ -682,6 +603,36 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      }
+      product_variant_images: {
+        Row: {
+          created_at: string
+          deleted: boolean
+          deleted_at: string | null
+          id: number
+          image_url: string
+          product_variant_id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          image_url: string
+          product_variant_id: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted?: boolean
+          deleted_at?: string | null
+          id?: number
+          image_url?: string
+          product_variant_id?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       product_variants: {
         Row: {
@@ -720,6 +671,7 @@ export interface Database {
       }
       products: {
         Row: {
+          attributes: Json
           base_price: number | null
           brand_id: number | null
           created_at: string
@@ -727,14 +679,16 @@ export interface Database {
           deleted_at: string | null
           description: string | null
           id: string
-          metadata: Json | null
-          name: string
+          metadata: Json
+          name: string | null
           status: string
           subcategory_id: number | null
+          tags: Json
           thumbnail: string | null
           updated_at: string
         }
         Insert: {
+          attributes?: Json
           base_price?: number | null
           brand_id?: number | null
           created_at?: string
@@ -742,14 +696,16 @@ export interface Database {
           deleted_at?: string | null
           description?: string | null
           id?: string
-          metadata?: Json | null
-          name: string
+          metadata?: Json
+          name?: string | null
           status?: string
           subcategory_id?: number | null
+          tags?: Json
           thumbnail?: string | null
           updated_at?: string
         }
         Update: {
+          attributes?: Json
           base_price?: number | null
           brand_id?: number | null
           created_at?: string
@@ -757,10 +713,11 @@ export interface Database {
           deleted_at?: string | null
           description?: string | null
           id?: string
-          metadata?: Json | null
-          name?: string
+          metadata?: Json
+          name?: string | null
           status?: string
           subcategory_id?: number | null
+          tags?: Json
           thumbnail?: string | null
           updated_at?: string
         }
@@ -780,129 +737,6 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
-      }
-      products_attributes: {
-        Row: {
-          attribute_field_id: number
-          created_at: string
-          deleted: boolean
-          deleted_at: string | null
-          id: number
-          product_id: string
-          updated_at: string
-          value: string
-        }
-        Insert: {
-          attribute_field_id: number
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          id?: number
-          product_id: string
-          updated_at?: string
-          value: string
-        }
-        Update: {
-          attribute_field_id?: number
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          id?: number
-          product_id?: string
-          updated_at?: string
-          value?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "products_attributes_attribute_field_id_fkey"
-            columns: ["attribute_field_id"]
-            isOneToOne: false
-            referencedRelation: "attribute_fields"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "products_attributes_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      products_specs: {
-        Row: {
-          created_at: string
-          deleted: boolean
-          deleted_at: string | null
-          id: number
-          product_id: string
-          spec_field_id: number
-          updated_at: string
-          value: string | null
-        }
-        Insert: {
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          id?: number
-          product_id: string
-          spec_field_id: number
-          updated_at?: string
-          value?: string | null
-        }
-        Update: {
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          id?: number
-          product_id?: string
-          spec_field_id?: number
-          updated_at?: string
-          value?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "product_specs_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "product_specs_spec_field_id_fkey"
-            columns: ["spec_field_id"]
-            isOneToOne: false
-            referencedRelation: "spec_fields"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      spec_fields: {
-        Row: {
-          created_at: string
-          deleted: boolean
-          deleted_at: string | null
-          id: number
-          name: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          id?: number
-          name: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          id?: number
-          name?: string
-          updated_at?: string
-        }
-        Relationships: []
       }
       subcategories: {
         Row: {
@@ -941,54 +775,6 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
-      }
-      table_base: {
-        Row: {
-          created_at: string
-          deleted: boolean
-          deleted_at: string | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      tags: {
-        Row: {
-          created_at: string
-          deleted: boolean
-          deleted_at: string | null
-          id: number
-          name: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          id?: number
-          name: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          deleted?: boolean
-          deleted_at?: string | null
-          id?: number
-          name?: string
-          updated_at?: string
-        }
-        Relationships: []
       }
       us_states: {
         Row: {
@@ -1089,6 +875,12 @@ export interface Database {
         }
         Returns: undefined
       }
+      fn_find_or_create_attributes: {
+        Args: {
+          p_attribute_names: string[]
+        }
+        Returns: unknown
+      }
       fn_find_or_create_brand: {
         Args: {
           p_name: string
@@ -1115,6 +907,12 @@ export interface Database {
           p_tag_name: string
         }
         Returns: number
+      }
+      fn_find_or_create_tags: {
+        Args: {
+          p_tag_names: string[]
+        }
+        Returns: unknown
       }
       fn_get_categories: {
         Args: {

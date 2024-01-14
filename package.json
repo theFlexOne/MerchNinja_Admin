@@ -7,8 +7,8 @@
   "scripts": {
     "dev": "npm run dev --prefix client",
     "build": "npm run build --prefix client",
-    "db:reset": "supabase db reset",
-    "gen:types": "supabase gen types typescript --local > client/src/types/database.types.ts",
+    "db:reset": "supabase db reset --workdir ./database",
+    "gen:types": "supabase gen types typescript --local --workdir ./database > client/src/types/database.types.ts",
     "reset:types": "bun run db:reset && bun run gen:types",
     "commands": "./scripts/commands.sh"
   },

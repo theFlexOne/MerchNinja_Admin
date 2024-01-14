@@ -7,13 +7,10 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 
 const MetadataPanel = () => {
   const { control } = useFormContext();
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: 'metadata',
   });
-
-  const metadataList: FormField<MetadataItemType>[] =
-    fields as FormField<MetadataItemType>[];
 
   return (
     <Panel>
@@ -26,8 +23,12 @@ const MetadataPanel = () => {
           >
             Add Metadata
           </Button>
-          {metadataList.map((field, index) => (
-            <MetadataSectionInputs key={field.id} index={index} />
+          {fields.map((field, index) => (
+            <MetadataSectionInputs
+              key={field.id}
+              name={`metadata.${index}`}
+              remove={() => remove(index)}
+            />
           ))}
         </div>
       </PanelBody>
@@ -37,38 +38,35 @@ const MetadataPanel = () => {
 
 export default MetadataPanel;
 
-function MetadataSectionInputs({ index }: { index: number }) {
-  const { register, control } = useFormContext();
-  const { remove } = useFieldArray({
-    control,
-    name: 'metadata',
-  });
+function MetadataSectionInputs({
+  remove,
+  name,
+}: {
+  remove: () => void;
+  name: string;
+}) {
+  const { register } = useFormContext();
 
   return (
     <div className='flex gap-4'>
       <TextInput
         label='Title'
-        {...register(`metadata.${index}.title`, { required: true })}
+        {...register(`${name}.title`, { required: true })}
       />
       <TextInput
         label='Description'
-        {...register(`metadata.${index}.description`, { required: true })}
+        {...register(`${name}.description`, { required: true })}
       />
       <button
         type='button'
         className='border rounded px-2 py-1 self-end mb-2'
-        onClick={() => remove(index)}
+        onClick={remove}
       >
         Remove
       </button>
     </div>
   );
 }
-
-type MetadataItemType = {
-  title: string;
-  description: string;
-};
 
 export type FormField<T> = T & {
   id: string;

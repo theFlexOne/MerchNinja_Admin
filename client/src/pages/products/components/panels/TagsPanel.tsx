@@ -33,7 +33,7 @@ const TagsPanel = () => {
   };
 
   useEffect(() => {
-    register('tags');
+    register('tags', { value: [] });
   }, [register]);
 
   return (

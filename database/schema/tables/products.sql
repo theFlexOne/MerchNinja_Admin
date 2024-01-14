@@ -14,7 +14,7 @@ CREATE TABLE
         -------------------------------------
         CONSTRAINT products_pkey PRIMARY KEY (id),
         CONSTRAINT products_name_key UNIQUE (name),
-    ) INHERITS (TABLE_BASE);
+    ) INHERITS (utility.TABLE_BASE);
 
 CREATE POLICY
     products_read_all_policy ON public.products FOR

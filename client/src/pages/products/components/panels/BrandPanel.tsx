@@ -30,7 +30,7 @@ const BrandPanel = () => {
             options={options}
             id='brand'
             className='grow'
-            {...register('brand')}
+            {...register('brand_id')}
           />
           <button
             type='button'

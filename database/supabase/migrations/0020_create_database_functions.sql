@@ -553,3 +553,58 @@ LANGUAGE plpgsql AS
 				);
 	END;
 $$;
+
+CREATE OR REPLACE FUNCTION public.fn_find_or_create_tags(p_tag_names text[])
+ RETURNS bigint[]
+ LANGUAGE plpgsql
+AS $$
+DECLARE
+    d_tag_id bigint;
+    d_tag_ids bigint[] := '{}';
+    v_tag_name text;
+BEGIN
+    FOREACH v_tag_name IN ARRAY p_tag_names
+    LOOP
+        SELECT id INTO d_tag_id
+        FROM public.tags
+        WHERE name = v_tag_name;
+
+        IF d_tag_id IS NULL THEN
+            INSERT INTO public.tags (name, created_at, updated_at)
+            VALUES (v_tag_name, now(), now()) RETURNING id INTO d_tag_id;
+        END IF;
+
+        d_tag_ids := array_append(d_tag_ids, d_tag_id);
+    END LOOP;
+
+    RETURN d_tag_ids;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION public.fn_find_or_create_attributes(p_attribute_names text[])
+ RETURNS bigint[]
+ LANGUAGE plpgsql
+AS $$
+DECLARE
+    d_attribute_id bigint;
+    d_attribute_ids bigint[] := '{}';
+    v_attribute_name text;
+BEGIN
+    FOREACH v_attribute_name IN ARRAY p_attribute_names
+    LOOP
+        SELECT id INTO d_attribute_id
+        FROM public.attribute_fields
+        WHERE name = v_attribute_name;
+
+        IF d_attribute_id IS NULL THEN
+            INSERT INTO public.attribute_fields (name, created_at, updated_at)
+            VALUES (v_attribute_name, now(), now()) RETURNING id INTO d_attribute_id;
+        END IF;
+
+        d_attribute_ids := array_append(d_attribute_ids, d_attribute_id);
+    END LOOP;
+
+    RETURN d_attribute_ids;
+END;
+$$;
+
