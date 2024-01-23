@@ -22,9 +22,7 @@ export default function AddProductPage() {
 
   return (
     <Page>
-      <PageHeader className='w-full' saved={true}>
-        <span className=''>Create Product</span>
-      </PageHeader>
+      <PageHeader heading='Add Product' />
       <ProductForm handleSubmit={handleSubmit} />
     </Page>
   );

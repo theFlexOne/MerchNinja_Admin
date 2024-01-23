@@ -504,6 +504,33 @@ export interface Database {
           }
         ]
       }
+      product_list_columns: {
+        Row: {
+          id: number
+          is_filterable: boolean
+          is_sortable: boolean
+          is_visible: boolean
+          name: string
+          type: Database["public"]["Enums"]["product_list_column_type"]
+        }
+        Insert: {
+          id?: number
+          is_filterable?: boolean
+          is_sortable?: boolean
+          is_visible?: boolean
+          name: string
+          type: Database["public"]["Enums"]["product_list_column_type"]
+        }
+        Update: {
+          id?: number
+          is_filterable?: boolean
+          is_sortable?: boolean
+          is_visible?: boolean
+          name?: string
+          type?: Database["public"]["Enums"]["product_list_column_type"]
+        }
+        Relationships: []
+      }
       product_reviews: {
         Row: {
           created_at: string
@@ -973,6 +1000,14 @@ export interface Database {
     }
     Enums: {
       discount_type: "PERCENTAGE" | "FIXED"
+      product_list_column_type:
+        | "number"
+        | "string"
+        | "date"
+        | "dateTime"
+        | "time"
+        | "boolean"
+        | "image"
       role: "USER" | "ADMIN"
       us_state_type: "STATE" | "FEDERAL DISTRICT" | "TERRITORY"
     }

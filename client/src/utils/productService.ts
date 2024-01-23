@@ -1,30 +1,13 @@
-import { Tables } from '@/types/database.types';
+import { Json, Tables } from '@/types/database.types';
 import supabase from '../lib/supabase/supabaseClient';
-import { FieldValues } from 'react-hook-form';
-
-export default async function saveProduct(formData: FieldValues) {
-  const productData: ProductCreationData = mapFormDataToProductData(formData);
-  let productId: string;
-  try {
-    if (formData.id) {
-      productId = await updateProduct(formData.id, productData);
-    } else {
-      productId = await createProduct(productData);
-    }
-
-    formData.id = productId;
-    return formData;
-  } catch (error) {
-    console.error(error);
-  }
-}
+import { ProductFormValues } from '@/pages/products/components/ProductForm';
 
 export async function createProduct(
-  createProductData: FieldValues
+  createProductData: ProductFormValues
 ): Promise<string> {
   const { data, error } = await supabase
     .from('products')
-    .insert([mapFormDataToProductData(createProductData)])
+    .insert([mapProductFormValuesToProductCreationData(createProductData)])
     .select('id')
     .single();
   if (error) throw error;
@@ -33,11 +16,11 @@ export async function createProduct(
 
 export async function updateProduct(
   productId: string,
-  updateProductData: FieldValues
+  updateProductData: ProductFormValues
 ): Promise<string> {
   const { data, error } = await supabase
     .from('products')
-    .update(mapFormDataToProductData(updateProductData))
+    .update(mapProductFormValuesToProductCreationData(updateProductData))
     .match({ id: productId })
     .select('id')
     .single();
@@ -45,16 +28,15 @@ export async function updateProduct(
   return data.id;
 }
 
-function mapFormDataToProductData(data: FieldValues): ProductCreationData {
-  const metadata = data.metadata.reduce(
-    (
-      acc: Record<string, unknown>,
-      curr: { title: string; description: string }
-    ) => {
+function mapProductFormValuesToProductCreationData(
+  data: ProductFormValues
+): ProductCreationData {
+  const metadata = data.metadata?.reduce(
+    (acc: Record<string, unknown>, curr) => {
       acc[curr.title] = curr.description;
       return acc;
     },
-    {} as ProductCreationData['metadata']
+    {}
   );
 
   return {
@@ -66,7 +48,7 @@ function mapFormDataToProductData(data: FieldValues): ProductCreationData {
     status: data.status,
     tags: data.tags,
     attributes: data.attributes,
-    metadata,
+    metadata: metadata as Json,
   };
 }
 

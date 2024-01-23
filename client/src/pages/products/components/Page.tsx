@@ -8,7 +8,10 @@ export default function Page({
 }: HTMLProps<HTMLDivElement>) {
   return (
     <div
-      className={cn('grow flex flex-col gap-6 items-center', className)}
+      className={cn(
+        'grow flex flex-col gap-6 items-center bg-f1-dark-bg min-h-screen',
+        className
+      )}
       {...rest}
     >
       {children}

@@ -5,10 +5,7 @@ import AppHeader from './AppLayoutHeader';
 export default function AppLayout() {
   return (
     <>
-      <div
-        id='rootContent'
-        className='min-h-screen bg-f1-dark-bg text-neutral-100 relative'
-      >
+      <div id='rootContent' className='min-h-screen text-neutral-100 relative'>
         <AppSidebar />
         <div className='flex flex-col ml-64'>
           <AppHeader />

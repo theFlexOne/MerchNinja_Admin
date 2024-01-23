@@ -6,11 +6,12 @@ import {
 import AppLayout from './layouts/AppLayout';
 import Dashboard from './pages/dashboard/Dashboard';
 import ProductsProvider from './pages/products/ProductsProviderPage';
-import ProductsListPage from './pages/products/ProductsListPage';
+import ProductListPage from './pages/products/ProductListPage';
 import ProductPage from './pages/products/ProductPage';
 import AddProductPage from './pages/products/AddProductPage';
 import EditProductPage from './pages/products/EditProductPage';
 import TestPage from './pages/test/TestPage';
+import PageNotFoundPage from './pages/PageNotFoundPage';
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <ProductsListPage />,
+            element: <ProductListPage />,
           },
           {
             path: ':id',
@@ -54,8 +55,8 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: 'error',
-    element: <div>Something went wrong. Please try again later.</div>,
+    path: '*',
+    element: <PageNotFoundPage errorCode={404} />,
   },
 ]);
 

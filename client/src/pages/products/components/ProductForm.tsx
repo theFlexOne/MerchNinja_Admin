@@ -12,9 +12,9 @@ import { useForm } from 'react-hook-form';
 export default function ProductForm({
   handleSubmit,
 }: {
-  handleSubmit: (data: Record<string, unknown>) => void;
+  handleSubmit: (data: ProductFormValues) => void;
 }) {
-  const methods = useForm<Record<string, unknown>>();
+  const methods = useForm<ProductFormValues>();
 
   return (
     <Form
@@ -40,3 +40,19 @@ export default function ProductForm({
     </Form>
   );
 }
+
+export type ProductFormValues = {
+  id?: string;
+  name: string;
+  price: number;
+  description: string;
+  status: string;
+  brand_id: number;
+  subcategory_id: number;
+  tags: string[];
+  attributes: string[];
+  metadata: {
+    title: string;
+    description: string;
+  }[];
+};

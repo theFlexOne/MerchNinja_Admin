@@ -9,10 +9,7 @@
     "build": "npm run build --prefix client",
     "db:reset": "supabase db reset --workdir ./database",
     "gen:types": "supabase gen types typescript --local --workdir ./database > client/src/types/database.types.ts",
-    "reset:types": "bun run db:reset && bun run gen:types",
+    "refresh": "./database/scripts/refreshDatabase.sh",
     "commands": "./scripts/commands.sh"
-  },
-  "devDependencies": {
-    "@types/lodash.set": "^4.3.9"
   }
 }

@@ -9,7 +9,7 @@ import {
 import { DevTool } from '@hookform/devtools';
 import { useEffect } from 'react';
 
-export default function Form({
+export default function Form<T extends FieldValues>({
   id,
   children,
   className,
@@ -18,7 +18,7 @@ export default function Form({
   onSubmit,
   methods,
   ...props
-}: FormProps) {
+}: FormProps<T>) {
   const formId = useId(id);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,11 +53,14 @@ export default function Form({
   );
 }
 
-type FormProps = Omit<React.HTMLProps<HTMLFormElement>, 'onSubmit'> & {
+type FormProps<T extends FieldValues> = Omit<
+  React.HTMLProps<HTMLFormElement>,
+  'onSubmit'
+> & {
   id?: string;
   children: React.ReactNode;
   onClose?: () => void;
-  onSubmit?: SubmitHandler<FieldValues>;
-  methods: ReturnType<typeof useForm>;
+  onSubmit?: SubmitHandler<T>;
+  methods: ReturnType<typeof useForm<T>>;
   devtools?: boolean;
 };
